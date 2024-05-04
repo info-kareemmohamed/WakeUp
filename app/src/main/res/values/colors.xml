@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="unchecked_thumb">#BcBcBc</color>
+    <color name="checked_thumb">#FFFFFFFF</color>
+    <color name="unchecked_track">#cdcdcd</color>
+    <color name="checked_track">#578CDA</color>
+
 </resources>
