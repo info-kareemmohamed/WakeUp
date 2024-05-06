@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/CardTime_Card"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_100sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -54,20 +55,24 @@
 
             android:layout_margin="@dimen/_10sdp"
             android:text="7:58"
-            android:textSize="@dimen/_40sdp" />
+            android:textSize="@dimen/_35sdp" />
+
         <TextView
             android:id="@+id/CardTime_Abbreviations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/CardTime_days"
-            android:textColor="@color/white"
-
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_toEndOf="@+id/CardTime_Time"
-            android:layout_margin="@dimen/_10sdp"
             android:text="Am"
-            android:textSize="@dimen/_40sdp" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/_35sdp" />
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/CardTime_Switc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -79,7 +84,7 @@
             android:layout_toEndOf="@+id/CardTime_Abbreviations"
             android:thumb="@drawable/thumb"
             app:thumbTint="@null"
-            android:checked="true"
+
             app:track="@drawable/track"
             app:trackTint="@null" />
 
