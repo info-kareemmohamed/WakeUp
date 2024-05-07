@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
             Alarm("Tuesday", "09:00", false, R.drawable.ic_sunny, "PM"),
         )
         binding.MainRecyclerView.adapter = RecyclerAdapter(alarms)
+        binding.MainBottomNavigation.background=null
 
     }
 }
