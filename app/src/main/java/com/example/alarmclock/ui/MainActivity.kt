@@ -1,5 +1,6 @@
 package com.example.alarmclock.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
@@ -26,5 +27,10 @@ class MainActivity : AppCompatActivity() {
         binding.MainRecyclerView.adapter = RecyclerAdapter(alarms)
         binding.MainBottomNavigation.background=null
 
+    binding.MainFloatingActionButton.setOnClickListener{
+        val intent:Intent =Intent(this,AlarmActivity::class.java)
+        startActivity(intent)
     }
+    }
+
 }
