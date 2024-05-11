@@ -1,11 +1,13 @@
 package com.example.alarmclock.recyclerview
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.SwitchCompat
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
@@ -37,6 +39,7 @@ class RecyclerAdapter(private var dataList: List<Alarm>) :
         val abbreviations: TextView = itemView.findViewById(R.id.CardTime_Abbreviations)
         val image: ImageView = itemView.findViewById(R.id.CardTime_Image)
         val switch:SwitchCompat = itemView.findViewById(R.id.CardTime_Switc)
+
 
 
         fun onBindView(alarm: Alarm) {

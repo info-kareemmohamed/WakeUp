@@ -1,6 +1,7 @@
 package com.example.alarmclock.ui
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
@@ -22,23 +23,52 @@ class MainActivity : AppCompatActivity() {
         initialRecyclerView()
         setDataInRecyclerView()
         setOnClickListenerToFloatingActionButton()
+        setDataToAlarmScheduler()
+        setStatusBarIcon(true)
+    }
+
+
+
+
+    private fun setDataToAlarmScheduler(){
+
         AndriodAlarmScheduler(context = applicationContext).scheduler(
             Alarm(
                 1,
                 "Monday",
-                "08:00",
+                "03:34",
                 true,
                 R.drawable.ic_nightlight,
                 "AM"
             )
         )
+
+
+        AndriodAlarmScheduler(context = applicationContext).scheduler(
+            Alarm(
+                2,
+                "Monday",
+                "03:35",
+                true,
+                R.drawable.ic_nightlight,
+                "AM"
+            )
+        )
+
+
+
     }
 
+    private fun setStatusBarIcon(enabled: Boolean) {
+        val alarmChanged = Intent("android.intent.action.ALARM_CHANGED")
+        alarmChanged.putExtra("alarmSet", enabled)
+        sendBroadcast(alarmChanged)
+    }
 
     fun setDataInRecyclerView() {
         val alarms = arrayListOf(
-            Alarm(1, "Monday", "08:00", true, R.drawable.ic_nightlight, "AM"),
-            Alarm(2, "Tuesday", "09:00", false, R.drawable.ic_sunny, "PM"),
+            Alarm(1, "Monday",   "1:39", true, R.drawable.ic_nightlight, "AM"),
+            Alarm(2, "Tuesday",   "1:39", false, R.drawable.ic_sunny, "PM"),
         )
         binding.MainRecyclerView.adapter = RecyclerAdapter(alarms)
 

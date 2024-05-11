@@ -24,7 +24,12 @@
         android:layout_margin="@dimen/_5sdp"
         app:cardElevation="@dimen/_10sdp">
 
-
+<androidx.appcompat.widget.AppCompatButton
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Save"
+    android:background="@drawable/button"
+    />
 
 
     </androidx.cardview.widget.CardView>
