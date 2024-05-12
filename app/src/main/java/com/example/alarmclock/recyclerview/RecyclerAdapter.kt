@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
-import com.example.alarmclock.entity.Alarm
+import com.example.alarmclock.data.entity.Alarm
 
 class RecyclerAdapter(private var dataList: List<Alarm>) :
     RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {

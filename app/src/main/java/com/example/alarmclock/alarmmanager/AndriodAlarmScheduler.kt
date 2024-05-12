@@ -6,7 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.example.alarmclock.entity.Alarm
+import com.example.alarmclock.data.entity.Alarm
 import java.util.Calendar
 
 class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {

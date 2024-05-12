@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alarmclock.R
 import com.example.alarmclock.alarmmanager.AndriodAlarmScheduler
 import com.example.alarmclock.databinding.ActivityMainBinding
-import com.example.alarmclock.entity.Alarm
+import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.recyclerview.RecyclerAdapter
 
 class MainActivity : AppCompatActivity() {

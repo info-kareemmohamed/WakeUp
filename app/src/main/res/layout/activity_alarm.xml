@@ -9,6 +9,8 @@
 
 
     <TimePicker
+        android:id="@+id/Alarm_TimePicker"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"
@@ -23,13 +25,24 @@
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_5sdp"
         app:cardElevation="@dimen/_10sdp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-<androidx.appcompat.widget.AppCompatButton
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Save"
-    android:background="@drawable/button"
-    />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/Alarm_AppCompatButton_Save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/button"
+                />
+
+        </RelativeLayout>
+
+
 
 
     </androidx.cardview.widget.CardView>
