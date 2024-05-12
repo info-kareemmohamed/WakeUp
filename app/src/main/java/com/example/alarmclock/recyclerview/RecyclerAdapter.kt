@@ -38,15 +38,14 @@ class RecyclerAdapter(private var dataList: List<Alarm>) :
         val days: TextView = itemView.findViewById(R.id.CardTime_days)
         val abbreviations: TextView = itemView.findViewById(R.id.CardTime_Abbreviations)
         val image: ImageView = itemView.findViewById(R.id.CardTime_Image)
-        val switch:SwitchCompat = itemView.findViewById(R.id.CardTime_Switc)
-
+        val switch: SwitchCompat = itemView.findViewById(R.id.CardTime_Switc)
 
 
         fun onBindView(alarm: Alarm) {
-            time.text = alarm.time
+            time.text = "${alarm.hour}:${alarm.minute}"
             days.text = alarm.days
             abbreviations.text = alarm.abbreviations
-            image.setImageResource(alarm.modeImage)
+            image.setImageResource(alarm.modeIcon)
             switch.isChecked = alarm.active
         }
 

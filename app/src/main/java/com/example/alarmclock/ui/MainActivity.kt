@@ -28,15 +28,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
-    private fun setDataToAlarmScheduler(){
+    private fun setDataToAlarmScheduler() {
 
         AndriodAlarmScheduler(context = applicationContext).scheduler(
             Alarm(
                 1,
+                "",
                 "Monday",
-                "03:34",
+                "03",
+                "05",
                 true,
                 R.drawable.ic_nightlight,
                 "AM"
@@ -46,15 +46,16 @@ class MainActivity : AppCompatActivity() {
 
         AndriodAlarmScheduler(context = applicationContext).scheduler(
             Alarm(
-                2,
+                1,
+                "",
                 "Monday",
-                "03:35",
+                "03",
+                "05",
                 true,
                 R.drawable.ic_nightlight,
                 "AM"
             )
         )
-
 
 
     }
@@ -67,8 +68,26 @@ class MainActivity : AppCompatActivity() {
 
     fun setDataInRecyclerView() {
         val alarms = arrayListOf(
-            Alarm(1, "Monday",   "1:39", true, R.drawable.ic_nightlight, "AM"),
-            Alarm(2, "Tuesday",   "1:39", false, R.drawable.ic_sunny, "PM"),
+            Alarm(
+                1,
+                "",
+                "Monday",
+                "03",
+                "05",
+                true,
+                R.drawable.ic_nightlight,
+                "AM"
+            ),
+            Alarm(
+                1,
+                "",
+                "Monday",
+                "03",
+                "05",
+                true,
+                R.drawable.ic_nightlight,
+                "AM"
+            )
         )
         binding.MainRecyclerView.adapter = RecyclerAdapter(alarms)
 
