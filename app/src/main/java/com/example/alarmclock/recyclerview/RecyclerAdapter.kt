@@ -1,5 +1,6 @@
 package com.example.alarmclock.recyclerview
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class RecyclerAdapter(private var dataList: List<Alarm>) :
         val abbreviations: TextView = itemView.findViewById(R.id.CardTime_Abbreviations)
         val image: ImageView = itemView.findViewById(R.id.CardTime_Image)
         val switch: SwitchCompat = itemView.findViewById(R.id.CardTime_Switc)
+
 
 
         fun onBindView(alarm: Alarm) {

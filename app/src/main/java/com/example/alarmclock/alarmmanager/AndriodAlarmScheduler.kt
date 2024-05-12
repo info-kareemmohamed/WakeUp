@@ -19,13 +19,13 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
-                getCalendar(item.time).timeInMillis,
+                getCalendar("${item.hour}:${item.minute}").timeInMillis,
                getPendingIntent(item)
             )
         } else {
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                getCalendar(item.time).timeInMillis,
+                getCalendar("${item.hour}:${item.minute}").timeInMillis,
                 AlarmManager.INTERVAL_DAY,
                 getPendingIntent(item)
 
