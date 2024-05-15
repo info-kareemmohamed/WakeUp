@@ -29,6 +29,11 @@ class RecyclerAdapter(private var dataList: List<Alarm>) :
         return dataList.size
     }
 
+    fun setList(dataList: List<Alarm>) {
+        this.dataList = dataList
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.onBindView(dataList[position])
     }
@@ -40,7 +45,6 @@ class RecyclerAdapter(private var dataList: List<Alarm>) :
         val abbreviations: TextView = itemView.findViewById(R.id.CardTime_Abbreviations)
         val image: ImageView = itemView.findViewById(R.id.CardTime_Image)
         val switch: SwitchCompat = itemView.findViewById(R.id.CardTime_Switc)
-
 
 
         fun onBindView(alarm: Alarm) {

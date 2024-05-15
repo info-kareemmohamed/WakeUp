@@ -1,5 +1,6 @@
 package com.example.alarmclock.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -13,14 +14,14 @@ interface AlarmDao {
     suspend fun setAlarm(alarm: Alarm)
 
     @Query("select * from alarm_table")
-    suspend fun getAlarm(): List<Alarm>
+     fun getAlarm(): LiveData<List<Alarm>>
 
     @Query("select * from alarm_table where active= 1")
-    suspend fun getActiveAlarm(): Flow<List<Alarm>>
+    fun getActiveAlarm(): LiveData<List<Alarm>>
 
     @Query("select * from alarm_table where active= 0")
-    suspend fun getNotActiveAlarm(): Flow<List<Alarm>>
+    fun getNotActiveAlarm(): LiveData<List<Alarm>>
 
     @Query("SELECT * FROM alarm_table WHERE id = :id")
-    suspend fun getAlarm(id: Int): Alarm
+    fun getAlarm(id: Int): Alarm
 }

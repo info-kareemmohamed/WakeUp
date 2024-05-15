@@ -47,7 +47,7 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
         }
         return PendingIntent.getBroadcast(
             context,
-            alarm.id,
+            alarm.id!!,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )

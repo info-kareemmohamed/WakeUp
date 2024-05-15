@@ -11,14 +11,17 @@
         android:id="@+id/Main_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/Main_CoordinatorLayout"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/_5sdp"
         android:transitionGroup="true" />
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/Main_CoordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_90sdp"
+        android:background="@null"
         android:layout_alignParentBottom="true"
         >
 
