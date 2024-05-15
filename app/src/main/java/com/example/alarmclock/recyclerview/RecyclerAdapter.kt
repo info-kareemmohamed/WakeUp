@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
 import com.example.alarmclock.data.entity.Alarm
 
-class RecyclerAdapter(private var dataList: List<Alarm>) :
+class RecyclerAdapter(private var dataList: List<Alarm> = emptyList()) :
     RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
 

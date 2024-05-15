@@ -26,23 +26,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
         initialRecyclerView()
         setOnClickListenerToFloatingActionButton()
-        setupViewModel()
-        setStatusBarIcon(true)
+        getDataFromViewModel()
+      //  setStatusBarIcon(true)
 
 
     }
 
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
-
+    private fun getDataFromViewModel() {
 
         viewModel.getAlarm().observe(this) { alarms ->
             adapter.setList(alarms)
         }
-
 
     }
 
@@ -100,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         binding.MainBottomNavigation.background = null
         binding.MainRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.MainRecyclerView.setHasFixedSize(true)
-        adapter = RecyclerAdapter(arrayListOf())
+        adapter = RecyclerAdapter()
         binding.MainRecyclerView.adapter = adapter
     }
 }

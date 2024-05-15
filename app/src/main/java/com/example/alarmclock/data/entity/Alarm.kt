@@ -7,7 +7,7 @@ import java.util.Date
 @Entity(tableName = "alarm_table")
 data class Alarm(
     @PrimaryKey(autoGenerate = true)
-    var id: Int?=null,
+    var id: Int,
     var message: String,
     var days: String,
     var hour: String,
