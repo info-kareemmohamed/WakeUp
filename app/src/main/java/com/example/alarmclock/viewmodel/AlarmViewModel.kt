@@ -26,7 +26,21 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    suspend fun deleteAlarm(alarm: Alarm) {
+        viewModelScope.launch(Dispatchers.IO) {
+            alarmRepository.deleteAlarm(alarm)
+        }
+    }
+
+
+    suspend fun updateAlarm(alarm: Alarm) {
+        viewModelScope.launch(Dispatchers.IO) {
+            alarmRepository.updateAlarm(alarm)
+        }
+    }
+
     fun getAlarm(): LiveData<List<Alarm>> = alarmRepository.getAlarm()
+
     fun getActiveAlarm(): LiveData<List<Alarm>> = alarmRepository.getActiveAlarm()
     fun getNotActiveAlarm(): LiveData<List<Alarm>> = alarmRepository.getNotActiveAlarm()
     fun getAlarm(id: Int): Alarm = alarmRepository.getAlarm(id)

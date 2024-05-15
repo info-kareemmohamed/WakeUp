@@ -2,8 +2,10 @@ package com.example.alarmclock.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.alarmclock.data.entity.Alarm
 import kotlinx.coroutines.flow.Flow
 
@@ -13,8 +15,14 @@ interface AlarmDao {
     @Insert
     suspend fun setAlarm(alarm: Alarm)
 
+    @Delete
+    suspend fun deleteAlarm(alarm: Alarm)
+
+    @Update
+    suspend fun updateAlarm(alarm: Alarm)
+
     @Query("select * from alarm_table")
-     fun getAlarm(): LiveData<List<Alarm>>
+    fun getAlarm(): LiveData<List<Alarm>>
 
     @Query("select * from alarm_table where active= 1")
     fun getActiveAlarm(): LiveData<List<Alarm>>

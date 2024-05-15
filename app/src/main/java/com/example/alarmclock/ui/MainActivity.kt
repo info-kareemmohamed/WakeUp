@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initialRecyclerView() {
-        binding.MainBottomNavigation.background = null
+
         binding.MainRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.MainRecyclerView.setHasFixedSize(true)
         adapter = RecyclerAdapter()
