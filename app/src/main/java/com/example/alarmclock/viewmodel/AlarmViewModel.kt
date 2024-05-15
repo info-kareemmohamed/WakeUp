@@ -26,14 +26,14 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    suspend fun deleteAlarm(alarm: Alarm) {
+    fun deleteAlarm(alarm: Alarm) {
         viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.deleteAlarm(alarm)
         }
     }
 
 
-    suspend fun updateAlarm(alarm: Alarm) {
+    fun updateAlarm(alarm: Alarm) {
         viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.updateAlarm(alarm)
         }

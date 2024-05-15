@@ -9,12 +9,15 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
 import com.example.alarmclock.alarmmanager.AndriodAlarmScheduler
 import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.recyclerview.RecyclerAdapter
+import com.example.alarmclock.recyclerview.SwipeItem
 import com.example.alarmclock.viewmodel.AlarmViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         initialRecyclerView()
         setOnClickListenerToFloatingActionButton()
         getDataFromViewModel()
-      //  setStatusBarIcon(true)
+        swipe()
+        //  setStatusBarIcon(true)
 
 
     }
@@ -84,8 +88,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     fun setOnClickListenerToFloatingActionButton() {
         binding.MainFloatingActionButton.setOnClickListener {
             val intent: Intent = Intent(this, AlarmActivity::class.java)
@@ -93,6 +95,25 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
+    fun swipe() {
+        val swipeItem = object : SwipeItem(this) {
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    val alarm: Alarm =
+                        adapter.getAlarmFromPosition(viewHolder.bindingAdapterPosition)
+                    viewModel.deleteAlarm(alarm)
+                }
+            }
+        }
+
+
+        ItemTouchHelper(swipeItem).attachToRecyclerView(binding.MainRecyclerView)
+
+    }
+
 
     fun initialRecyclerView() {
 

@@ -34,6 +34,11 @@ class RecyclerAdapter(private var dataList: List<Alarm> = emptyList()) :
         notifyDataSetChanged()
     }
 
+
+    fun getAlarmFromPosition( position:Int):Alarm{
+        return this.dataList[position]
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.onBindView(dataList[position])
     }
