@@ -13,36 +13,51 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        />
+        android:layout_margin="@dimen/_10sdp" />
 
 
-    <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:cardCornerRadius="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_5sdp"
+        android:padding="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="@dimen/_10sdp">
-        <RelativeLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:padding="@dimen/_10sdp"
             android:layout_height="match_parent">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/Alarm_AppCompatButton_Save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save"
                 android:layout_margin="@dimen/_10sdp"
-                android:layout_alignParentBottom="true"
                 android:background="@drawable/button"
-                />
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </RelativeLayout>
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>

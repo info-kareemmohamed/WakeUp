@@ -21,6 +21,8 @@ interface AlarmDao {
     @Update
     suspend fun updateAlarm(alarm: Alarm)
 
+    @Query("SELECT * FROM alarm_table ORDER BY id DESC LIMIT 1")
+    suspend fun getLastAlarm(): Alarm?
     @Query("select * from alarm_table")
     fun getAlarm(): LiveData<List<Alarm>>
 

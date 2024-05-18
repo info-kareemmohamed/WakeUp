@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.example.alarmclock.R
+import com.example.alarmclock.alarmmanager.AndriodAlarmScheduler
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
 import com.example.alarmclock.viewmodel.AlarmViewModel
@@ -14,6 +16,7 @@ import com.example.alarmclock.viewmodel.AlarmViewModel
 class AlarmActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAlarmBinding
     private lateinit var viewModel: AlarmViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlarmBinding.inflate(layoutInflater)
@@ -39,8 +42,20 @@ class AlarmActivity : AppCompatActivity() {
             }
 
             addAlarm(hour, minute)
+
+               setDataToAlarmScheduler()
             finish()
         }
+
+    }
+
+    private fun setDataToAlarmScheduler() {
+        viewModel.getLastAlarm().observe(this) {
+            AndriodAlarmScheduler(context = applicationContext).scheduler(
+                it
+            )
+        }
+
 
     }
 

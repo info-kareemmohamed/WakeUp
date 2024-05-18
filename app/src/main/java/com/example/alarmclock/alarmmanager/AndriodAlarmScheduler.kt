@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import com.example.alarmclock.data.entity.Alarm
 import java.util.Calendar
 
@@ -15,17 +16,17 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     @SuppressLint("ScheduleExactAlarm")
-    override fun scheduler(item: Alarm) {
+    override fun scheduler(item: Alarm?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
-                getCalendar("${item.hour}:${item.minute}").timeInMillis,
+                getCalendar("${item?.hour}:${item?.minute}").timeInMillis,
                getPendingIntent(item)
             )
         } else {
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                getCalendar("${item.hour}:${item.minute}").timeInMillis,
+                getCalendar("${item?.hour}:${item?.minute}").timeInMillis,
                 AlarmManager.INTERVAL_DAY,
                 getPendingIntent(item)
 
@@ -41,13 +42,13 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
 
 
 
-    private fun getPendingIntent(alarm: Alarm):PendingIntent{
+    private fun getPendingIntent(alarm: Alarm?):PendingIntent{
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             action = "com.tester.alarmmanager"
         }
         return PendingIntent.getBroadcast(
             context,
-            alarm.id!!,
+            alarm?.id!!,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -55,6 +56,8 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
     }
 
     private fun getCalendar(time:String): Calendar {
+        Log.d("ssssssss",time+"    wwwwwww")
+
         val hour = time.substring(0, 2).toInt()
         val minute = time.substring(3, 5).toInt()
         return Calendar.getInstance().apply {
