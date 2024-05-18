@@ -32,11 +32,13 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
 
             )
         }
+
     }
 
 
     override fun cancel(item: Alarm) {
         alarmManager.cancel(getPendingIntent(item))
+
     }
 
 

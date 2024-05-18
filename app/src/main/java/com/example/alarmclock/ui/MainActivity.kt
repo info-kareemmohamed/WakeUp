@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
@@ -18,9 +19,10 @@ import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.recyclerview.RecyclerAdapter
 import com.example.alarmclock.recyclerview.SwipeItem
+import com.example.alarmclock.recyclerview.SwitchListener
 import com.example.alarmclock.viewmodel.AlarmViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() ,SwitchListener{
     private lateinit var viewModel: AlarmViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerAdapter
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                 if (direction == ItemTouchHelper.LEFT) {
                     val alarm: Alarm =
                         adapter.getAlarmFromPosition(viewHolder.bindingAdapterPosition)
+                    AndriodAlarmScheduler(context = applicationContext).cancel(alarm)
                     viewModel.deleteAlarm(alarm)
                 }
             }
@@ -119,7 +122,23 @@ class MainActivity : AppCompatActivity() {
 
         binding.MainRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.MainRecyclerView.setHasFixedSize(true)
-        adapter = RecyclerAdapter()
+        adapter = RecyclerAdapter(switchListener = this)
         binding.MainRecyclerView.adapter = adapter
+    }
+
+    override fun onClick(alarm: Alarm, isChecked: Boolean) {
+        Log.d("SwitchStatus", "Switch is ${if (isChecked) "ON" else "OFF"}")
+        if (isChecked) {
+            AndriodAlarmScheduler(context = this).scheduler(
+                alarm
+            )
+            alarm.active=true
+        } else {
+            AndriodAlarmScheduler(this).cancel(alarm)
+            alarm.active = false
+        }
+
+        viewModel.updateAlarm(alarm)
+
     }
 }
