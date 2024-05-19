@@ -17,58 +17,63 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
 
     @SuppressLint("ScheduleExactAlarm")
     override fun scheduler(item: Alarm?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                getCalendar("${item?.hour}:${item?.minute}").timeInMillis,
-               getPendingIntent(item)
-            )
-        } else {
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                getCalendar("${item?.hour}:${item?.minute}").timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                getPendingIntent(item)
-
-            )
+        item?.let {
+            val daysOfWeek = it.getDaysOfWeek()
+            for (day in daysOfWeek) {
+                val calendar = getCalendar(it.hour.toInt(), it.minute.toInt(),  it.timePeriod)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        getPendingIntent(it, day)
+                    )
+                } else {
+                    alarmManager.setRepeating(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        AlarmManager.INTERVAL_DAY * 7,  // Set to repeat weekly
+                        getPendingIntent(it, day)
+                    )
+                }
+            }
         }
-
     }
-
 
     override fun cancel(item: Alarm) {
-        alarmManager.cancel(getPendingIntent(item))
-
+        val daysOfWeek = item.getDaysOfWeek()
+        for (day in daysOfWeek) {
+            alarmManager.cancel(getPendingIntent(item, day))
+        }
     }
 
-
-
-
-    private fun getPendingIntent(alarm: Alarm?):PendingIntent{
+    private fun getPendingIntent(alarm: Alarm, day: Int): PendingIntent {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             action = "com.tester.alarmmanager"
+            putExtra("alarmId", alarm.id)
+            putExtra("dayOfWeek", day)
         }
         return PendingIntent.getBroadcast(
             context,
-            alarm?.id!!,
+            alarm.id * 10 + day,  // Unique requestCode for each day
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
     }
 
-    private fun getCalendar(time:String): Calendar {
-        Log.d("ssssssss",time+"    wwwwwww")
-
-        val hour = time.substring(0, 2).toInt()
-        val minute = time.substring(3, 5).toInt()
-        return Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, hour)
+    private fun getCalendar(hour: Int, minute: Int, timePeriod: String): Calendar {
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR, hour)
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.AM_PM, if (timePeriod == "AM") Calendar.AM else Calendar.PM)
         }
 
+        // If the time has already passed for today, move to the next week
+        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 7)
+        }
+
+        return calendar
     }
-
-
 }

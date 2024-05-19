@@ -68,8 +68,8 @@ class AlarmActivity : AppCompatActivity() {
                 message = "dd",
                 minute = minute.toString(),
                 active = true,
-                abbreviations = getTimeSuffix(hour),
-                days = "Tu",
+                timePeriod = getTimeSuffix(hour),
+                days = "3,4",
                 modeIcon = getIcon(hour),
                 id = 0
             )

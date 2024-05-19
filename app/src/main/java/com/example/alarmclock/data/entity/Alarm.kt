@@ -14,5 +14,32 @@ data class Alarm(
     var minute: String,
     var active: Boolean = true,
     val modeIcon: Int,
-    var abbreviations: String
-)
+    var timePeriod: String
+) {
+
+    fun getDaysOfWeek(): List<Int> {
+        return days.split(",").map { it.toInt() }
+    }
+
+    fun setDaysOfWeek(daysOfWeek: List<Int>) {
+        days = daysOfWeek.joinToString(",")
+    }
+
+
+
+
+    fun getDayName(dayIndex: Int): String {
+        val daysOfWeek = arrayOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+        return if (dayIndex in 0..6) {
+            daysOfWeek[dayIndex-1]
+        } else {
+            "Invalid"
+        }
+    }
+    fun getDaysList(dayIndices: List<Int>): String {
+        return dayIndices.joinToString(" , ") { getDayName(it) }
+    }
+
+
+
+}
