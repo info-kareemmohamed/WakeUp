@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
-import com.example.alarmclock.alarmmanager.AndriodAlarmScheduler
+
+import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.alarmmanager.RestartAlarmsService
 import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.recyclerview.RecyclerAdapter
@@ -22,7 +24,7 @@ import com.example.alarmclock.recyclerview.SwipeItem
 import com.example.alarmclock.recyclerview.SwitchListener
 import com.example.alarmclock.viewmodel.AlarmViewModel
 
-class MainActivity : AppCompatActivity() ,SwitchListener{
+class MainActivity : AppCompatActivity(), SwitchListener {
     private lateinit var viewModel: AlarmViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerAdapter
@@ -36,9 +38,9 @@ class MainActivity : AppCompatActivity() ,SwitchListener{
         setOnClickListenerToFloatingActionButton()
         getDataFromViewModel()
         swipe()
-         setStatusBarIcon(true)
+        setStatusBarIcon(true)
 
-
+   //  startForegroundService(Intent(this, RestartAlarmsService::class.java))
     }
 
 
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity() ,SwitchListener{
                 if (direction == ItemTouchHelper.LEFT) {
                     val alarm: Alarm =
                         adapter.getAlarmFromPosition(viewHolder.bindingAdapterPosition)
-                    AndriodAlarmScheduler(context = applicationContext).cancel(alarm)
+                    AndroidAlarmScheduler(context = applicationContext).cancel(alarm)
                     viewModel.deleteAlarm(alarm)
                 }
             }
@@ -129,12 +131,12 @@ class MainActivity : AppCompatActivity() ,SwitchListener{
     override fun onClick(alarm: Alarm, isChecked: Boolean) {
         Log.d("SwitchStatus", "Switch is ${if (isChecked) "ON" else "OFF"}")
         if (isChecked) {
-            AndriodAlarmScheduler(context = this).scheduler(
+            AndroidAlarmScheduler(context = this).scheduler(
                 alarm
             )
-            alarm.active=true
+            alarm.active = true
         } else {
-            AndriodAlarmScheduler(this).cancel(alarm)
+            AndroidAlarmScheduler(this).cancel(alarm)
             alarm.active = false
         }
 

@@ -10,7 +10,7 @@ import android.util.Log
 import com.example.alarmclock.data.entity.Alarm
 import java.util.Calendar
 
-class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
+class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
 
     private val alarmManager: AlarmManager =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -20,7 +20,7 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
         item?.let {
             val daysOfWeek = it.getDaysOfWeek()
             for (day in daysOfWeek) {
-                val calendar = getCalendar(it.hour.toInt(), it.minute.toInt(),  it.timePeriod)
+                val calendar = getCalendar(it.hour.toInt(), it.minute.toInt(),  it.timePeriod,day)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
@@ -60,8 +60,9 @@ class AndriodAlarmScheduler(private val context: Context) : AlarmScheduler {
         )
     }
 
-    private fun getCalendar(hour: Int, minute: Int, timePeriod: String): Calendar {
+    private fun getCalendar(hour: Int, minute: Int, timePeriod: String,day: Int): Calendar {
         val calendar = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_WEEK, day)
             set(Calendar.HOUR, hour)
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)

@@ -2,13 +2,14 @@ package com.example.alarmclock.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.example.alarmclock.R
-import com.example.alarmclock.alarmmanager.AndriodAlarmScheduler
+import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
 import com.example.alarmclock.viewmodel.AlarmViewModel
@@ -51,7 +52,7 @@ class AlarmActivity : AppCompatActivity() {
 
     private fun setDataToAlarmScheduler() {
         viewModel.getLastAlarm().observe(this) {
-            AndriodAlarmScheduler(context = applicationContext).scheduler(
+            AndroidAlarmScheduler(context = applicationContext).scheduler(
                 it
             )
         }
@@ -69,7 +70,7 @@ class AlarmActivity : AppCompatActivity() {
                 minute = minute.toString(),
                 active = true,
                 timePeriod = getTimeSuffix(hour),
-                days = "3,4",
+                days = "${Calendar.WEDNESDAY},${Calendar.FRIDAY},${Calendar.THURSDAY}",
                 modeIcon = getIcon(hour),
                 id = 0
             )

@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
-import com.example.alarmclock.alarmmanager.AndriodAlarmScheduler
+
 import com.example.alarmclock.data.entity.Alarm
 
 class RecyclerAdapter(

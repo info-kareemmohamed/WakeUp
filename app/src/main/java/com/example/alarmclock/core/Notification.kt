@@ -69,6 +69,8 @@ class Notification(
             .setSmallIcon(R.drawable.baseline_alarm_add_24)
             .setContentIntent(getPendingIntent(context))
             .setAutoCancel(true)
+
             .build()
+
     }
 }
