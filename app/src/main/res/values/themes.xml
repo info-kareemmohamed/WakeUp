@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.AlarmClock" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/checked_track</item>
 
     </style>
 

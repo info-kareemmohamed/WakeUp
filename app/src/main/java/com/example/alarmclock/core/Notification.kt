@@ -1,17 +1,14 @@
 package com.example.alarmclock.core
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.alarmclock.R
-import com.example.alarmclock.ui.AlarmNotification
+import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 
 class Notification(
     val NotificationName: String = "Alarm Notifications",
@@ -22,19 +19,40 @@ class Notification(
     var icon: Int = R.drawable.baseline_alarm_add_24
 ) {
 
-
     fun displayNotification(context: Context) {
+        val notificationManager = getNotificationManager(context)
 
-        val notificationManager = getnotificationManager(context)
-        // Create a notification channel for Android Oreo and higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) notificationManager.createNotificationChannel(
-            getNotificationChannel()
-        )
-        notificationManager.notify(NotificationId, getNotificationCompat(context))
+        //  Create a notification channel for Android Oreo and higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(getNotificationChannel())
+        }
+
+        with(notificationManager) {
+            notify(NotificationId, getNotificationBuilder(context).build())
+        }
+    }
+
+
+    private fun getNotificationBuilder(context: Context): NotificationCompat.Builder {
+        val buttonReceiverPendingIntent =
+            AndroidAlarmScheduler(context).createButtonReceiver(context)
+        val stopAlarmPendingIntent = AndroidAlarmScheduler(context).createStopAlarm(context)
+        return NotificationCompat.Builder(context, "CHANNEL_ID").apply {
+            setSmallIcon(icon)
+            setContentTitle(title)
+            setContentText(description)
+            setPriority(NotificationCompat.PRIORITY_HIGH)
+            setCategory(NotificationCompat.CATEGORY_ALARM)
+            setOngoing(true)
+
+            setFullScreenIntent(stopAlarmPendingIntent, true)
+            addAction(R.drawable.baseline_alarm_add_24, "Solve", buttonReceiverPendingIntent)
+        }
+
 
     }
 
-    private fun getnotificationManager(context: Context): NotificationManager {
+    private fun getNotificationManager(context: Context): NotificationManager {
         return ContextCompat.getSystemService(
             context,
             NotificationManager::class.java
@@ -46,31 +64,12 @@ class Notification(
         return NotificationChannel(
             ChannelId,
             NotificationName,
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = this@Notification.description
+            setSound(null, null)
+        }
     }
 
 
-    private fun getPendingIntent(context: Context): PendingIntent {
-
-        val activityIntent = Intent(context, AlarmNotification::class.java)
-        return PendingIntent.getActivity(
-            context,
-            NotificationId,
-            activityIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-    }
-
-    private fun getNotificationCompat(context: Context): Notification {
-        return NotificationCompat.Builder(context, ChannelId)
-            .setContentTitle(title)
-            .setContentText(description)
-            .setSmallIcon(R.drawable.baseline_alarm_add_24)
-            .setContentIntent(getPendingIntent(context))
-            .setAutoCancel(true)
-
-            .build()
-
-    }
 }

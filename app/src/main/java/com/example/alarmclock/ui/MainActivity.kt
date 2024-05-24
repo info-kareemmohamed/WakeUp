@@ -1,22 +1,16 @@
 package com.example.alarmclock.ui
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alarmclock.R
-
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.alarmmanager.RestartAlarmsService
 import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.recyclerview.RecyclerAdapter
@@ -39,6 +33,9 @@ class MainActivity : AppCompatActivity(), SwitchListener {
         getDataFromViewModel()
         swipe()
         setStatusBarIcon(true)
+
+
+
 
    //  startForegroundService(Intent(this, RestartAlarmsService::class.java))
     }

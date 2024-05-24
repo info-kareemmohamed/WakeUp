@@ -2,12 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
 
     <application
         android:allowBackup="true"
@@ -20,12 +28,16 @@
         android:theme="@style/Theme.AlarmClock"
         tools:targetApi="31">
         <service
-            android:name=".alarmmanager.RestartAlarmsService"
+            android:name=".service.RestartAlarmsService"
             android:enabled="true"
             android:exported="true"></service>
 
         <activity
             android:name=".ui.AlarmNotification"
+            android:showOnLockScreen="true"
+            android:showForAllUsers="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:exported="false" />
         <activity
             android:name=".ui.AlarmActivity"
@@ -41,7 +53,7 @@
         </activity>
 
         <receiver
-            android:name=".alarmmanager.AlarmReceiver"
+            android:name=".receiver.AlarmReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

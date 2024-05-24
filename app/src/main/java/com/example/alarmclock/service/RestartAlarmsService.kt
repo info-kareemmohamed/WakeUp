@@ -1,4 +1,4 @@
-package com.example.alarmclock.alarmmanager
+package com.example.alarmclock.service
 
 
 import android.app.Service
@@ -13,7 +13,6 @@ import com.example.alarmclock.core.Notification
 
 
 class RestartAlarmsService : Service() {
-    private val CHANNEL_ID = "RestartAlarmsServiceChannel"
 
     override fun onCreate() {
         super.onCreate()

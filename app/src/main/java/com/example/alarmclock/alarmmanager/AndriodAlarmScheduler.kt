@@ -6,8 +6,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.receiver.AlarmReceiver
+import com.example.alarmclock.ui.AlarmNotification
 import java.util.Calendar
 
 class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
@@ -59,6 +60,20 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }
+    fun createStopAlarm(context: Context) : PendingIntent {
+        val intent = Intent(context, AlarmNotification::class.java)
+
+        val reqCode = "stopalarm".hashCode()
+        return PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
+    }
+
+    fun createButtonReceiver(context: Context) : PendingIntent {
+        val intent = Intent(context, AlarmReceiver::class.java)
+        intent.putExtra("NOTIFICATION_ID", "CHANNEL_ID")
+        intent.putExtra("ACTION", "off")
+        val reqCode = "btnreceiver".hashCode()
+        return PendingIntent.getBroadcast(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
+    }
 
     private fun getCalendar(hour: Int, minute: Int, timePeriod: String,day: Int): Calendar {
         val calendar = Calendar.getInstance().apply {
@@ -71,7 +86,7 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         }
 
         // If the time has already passed for today, move to the next week
-        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
             calendar.add(Calendar.DAY_OF_MONTH, 7)
         }
 

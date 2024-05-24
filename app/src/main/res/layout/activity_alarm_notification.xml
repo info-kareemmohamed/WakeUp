@@ -1,18 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+
     tools:context=".ui.AlarmNotification">
 
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/AlarmNotification_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notification"
+        android:layout_margin="@dimen/_20sdp"
+
+        android:text="08:28 PM"
         android:textColor="@color/white"
-        android:textSize="@dimen/_35sdp" />
-</LinearLayout>
+        android:textSize="@dimen/_50sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/AlarmNotification_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:background="@drawable/backgroundquestion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_time" />
+
+    <TextView
+        android:id="@+id/AlarmNotification_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_25sdp"
+        android:text="Solve this problem"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/AlarmNotification_view" />
+
+
+    <TextView
+        android:id="@+id/AlarmNotification_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:text="4 + 15"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_30sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AlarmNotification_title" />
+
+    <Button
+        android:id="@+id/AlarmNotification_answer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:text="30"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="@id/AlarmNotification_answer2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_question" />
+
+    <Button
+        android:id="@+id/AlarmNotification_answer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="5"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="@id/AlarmNotification_answer3"
+        app:layout_constraintStart_toEndOf="@id/AlarmNotification_answer1"
+        app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_question" />
+
+    <Button
+        android:id="@+id/AlarmNotification_answer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:text="20"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/AlarmNotification_answer2"
+        app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_question" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
