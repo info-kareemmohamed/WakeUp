@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.alarmclock.data.AlarmDatabase
-import com.example.alarmclock.data.AlarmRepository
+import com.example.alarmclock.repository.AlarmRepository
 import com.example.alarmclock.data.entity.Alarm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAlarm(): LiveData<List<Alarm>> = alarmRepository.getAlarm()
 
-    fun getActiveAlarm(): LiveData<List<Alarm>> = alarmRepository.getActiveAlarm()
+    fun getActiveAlarm(): List<Alarm> = alarmRepository.getActiveAlarm()
     fun getNotActiveAlarm(): LiveData<List<Alarm>> = alarmRepository.getNotActiveAlarm()
     fun getLastAlarm(): LiveData<Alarm?> = liveData(Dispatchers.IO) {
         emit(alarmRepository.getLastAlarm())

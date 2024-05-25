@@ -1,8 +1,6 @@
-package com.example.alarmclock.data
+package com.example.alarmclock.repository
 
 import androidx.lifecycle.LiveData
-import androidx.room.Delete
-import androidx.room.Update
 import com.example.alarmclock.data.dao.AlarmDao
 import com.example.alarmclock.data.entity.Alarm
 
@@ -17,7 +15,7 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
     suspend fun getLastAlarm(): Alarm? = alarmDao.getLastAlarm()
 
     fun getAlarm(): LiveData<List<Alarm>> = alarmDao.getAlarm()
-    fun getActiveAlarm(): LiveData<List<Alarm>> = alarmDao.getActiveAlarm()
+    fun getActiveAlarm(): List<Alarm> = alarmDao.getActiveAlarm()
     fun getNotActiveAlarm(): LiveData<List<Alarm>> = alarmDao.getNotActiveAlarm()
     fun getAlarm(id: Int): Alarm = alarmDao.getAlarm(id)
 

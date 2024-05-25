@@ -70,7 +70,7 @@ class AlarmActivity : AppCompatActivity() {
                 minute = minute.toString(),
                 active = true,
                 timePeriod = getTimeSuffix(hour),
-                days = "${Calendar.WEDNESDAY},${Calendar.FRIDAY},${Calendar.THURSDAY}",
+                days = "${Calendar.SATURDAY},${Calendar.SUNDAY},${Calendar.MONDAY}",
                 modeIcon = getIcon(hour),
                 id = 0
             )

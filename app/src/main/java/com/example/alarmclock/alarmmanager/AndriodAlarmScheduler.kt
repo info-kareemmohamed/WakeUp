@@ -6,9 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
+import com.example.alarmclock.data.AlarmDatabase
 import com.example.alarmclock.data.entity.Alarm
 import com.example.alarmclock.receiver.AlarmReceiver
 import com.example.alarmclock.ui.AlarmNotification
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
@@ -21,7 +26,7 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         item?.let {
             val daysOfWeek = it.getDaysOfWeek()
             for (day in daysOfWeek) {
-                val calendar = getCalendar(it.hour.toInt(), it.minute.toInt(),  it.timePeriod,day)
+                val calendar = getCalendar(it.hour.toInt(), it.minute.toInt(), it.timePeriod, day)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
@@ -60,14 +65,15 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     }
-    fun createStopAlarm(context: Context) : PendingIntent {
+
+    fun createStopAlarm(context: Context): PendingIntent {
         val intent = Intent(context, AlarmNotification::class.java)
 
         val reqCode = "stopalarm".hashCode()
         return PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 
-    fun createButtonReceiver(context: Context) : PendingIntent {
+    fun createButtonReceiver(context: Context): PendingIntent {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.putExtra("NOTIFICATION_ID", "CHANNEL_ID")
         intent.putExtra("ACTION", "off")
@@ -75,7 +81,7 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         return PendingIntent.getBroadcast(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 
-    private fun getCalendar(hour: Int, minute: Int, timePeriod: String,day: Int): Calendar {
+    private fun getCalendar(hour: Int, minute: Int, timePeriod: String, day: Int): Calendar {
         val calendar = Calendar.getInstance().apply {
             set(Calendar.DAY_OF_WEEK, day)
             set(Calendar.HOUR, hour)
@@ -91,5 +97,18 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         }
 
         return calendar
+    }
+
+
+    fun restartAllAlarms(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val activeAlarms = AlarmDatabase.getDatabace(context).alarmDao().getActiveAlarm()
+            activeAlarms.let { alarms ->
+                val alarmScheduler = AndroidAlarmScheduler(context)
+                alarms.forEach { alarm ->
+                    alarmScheduler.scheduler(alarm)
+                }
+            }
+        }
     }
 }

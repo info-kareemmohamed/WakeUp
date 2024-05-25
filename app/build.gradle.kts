@@ -44,7 +44,8 @@ dependencies {
 
 
 
-//Room
+implementation("androidx.lifecycle:lifecycle-process:2.8.0")
+    //Room
 //////////
     val room_version = "2.6.1"
 

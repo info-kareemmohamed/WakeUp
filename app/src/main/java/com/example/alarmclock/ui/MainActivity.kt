@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(), SwitchListener {
 
 
 
-   //  startForegroundService(Intent(this, RestartAlarmsService::class.java))
     }
 
 
@@ -50,37 +49,7 @@ class MainActivity : AppCompatActivity(), SwitchListener {
     }
 
 
-//    private fun setDataToAlarmScheduler() {
-//
-//        AndriodAlarmScheduler(context = applicationContext).scheduler(
-//            Alarm(
-//                1,
-//                "",
-//                "Monday",
-//                "03",
-//                "05",
-//                true,
-//                R.drawable.ic_nightlight,
-//                "AM"
-//            )
-//        )
-//
-//
-//        AndriodAlarmScheduler(context = applicationContext).scheduler(
-//            Alarm(
-//                1,
-//                "",
-//                "Monday",
-//                "03",
-//                "05",
-//                true,
-//                R.drawable.ic_nightlight,
-//                "AM"
-//            )
-//        )
-//
-//
-//    }
+
 
     private fun setStatusBarIcon(enabled: Boolean) {
         val alarmChanged = Intent("android.intent.action.ALARM_CHANGED")

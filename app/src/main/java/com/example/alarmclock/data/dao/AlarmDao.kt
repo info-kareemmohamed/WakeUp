@@ -27,7 +27,7 @@ interface AlarmDao {
     fun getAlarm(): LiveData<List<Alarm>>
 
     @Query("select * from alarm_table where active= 1")
-    fun getActiveAlarm(): LiveData<List<Alarm>>
+    fun getActiveAlarm(): List<Alarm>
 
     @Query("select * from alarm_table where active= 0")
     fun getNotActiveAlarm(): LiveData<List<Alarm>>
