@@ -84,11 +84,10 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
     private fun getCalendar(hour: Int, minute: Int, timePeriod: String, day: Int): Calendar {
         val calendar = Calendar.getInstance().apply {
             set(Calendar.DAY_OF_WEEK, day)
-            set(Calendar.HOUR, hour)
+            set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            set(Calendar.AM_PM, if (timePeriod == "AM") Calendar.AM else Calendar.PM)
         }
 
         // If the time has already passed for today, move to the next week

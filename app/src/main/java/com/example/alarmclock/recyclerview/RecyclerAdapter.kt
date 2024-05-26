@@ -62,12 +62,20 @@ class RecyclerAdapter(
         }
 
         fun onBindView(alarm: Alarm) {
-            time.text = "${alarm.hour}:${alarm.minute}"
-            days.text =  alarm.getDaysList( alarm.getDaysOfWeek())
+            time.text = handleTime(alarm.hour.toInt(), alarm.minute.toInt())
+            days.text = alarm.getDaysList(alarm.getDaysOfWeek())
             timePeriod.text = alarm.timePeriod
             image.setImageResource(alarm.modeIcon)
             switch.isChecked = alarm.active
             this.alarm = alarm
+        }
+
+
+        private fun handleTime(hourOfDay: Int, minuteOfDay: Int): String {
+            val hour12 = if (hourOfDay % 12 == 0) 12 else hourOfDay % 12
+            val formattedHour = String.format("%02d", hour12)
+            val formattedMinute = String.format("%02d", minuteOfDay)
+            return "$formattedHour:$formattedMinute"
         }
 
         private fun switchOnClick() {

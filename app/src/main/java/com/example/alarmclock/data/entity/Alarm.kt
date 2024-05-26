@@ -30,7 +30,7 @@ data class Alarm(
 
     fun getDayName(dayIndex: Int): String {
         val daysOfWeek = arrayOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
-        return if (dayIndex in 0..6) {
+        return if (dayIndex in 1..7) {
             daysOfWeek[dayIndex-1]
         } else {
             "Invalid"

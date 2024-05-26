@@ -37,7 +37,7 @@ class Notification(
         val buttonReceiverPendingIntent =
             AndroidAlarmScheduler(context).createButtonReceiver(context)
         val stopAlarmPendingIntent = AndroidAlarmScheduler(context).createStopAlarm(context)
-        return NotificationCompat.Builder(context, "CHANNEL_ID").apply {
+        return NotificationCompat.Builder(context, ChannelId).apply {
             setSmallIcon(icon)
             setContentTitle(title)
             setContentText(description)

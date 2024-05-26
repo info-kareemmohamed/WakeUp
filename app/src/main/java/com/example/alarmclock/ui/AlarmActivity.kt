@@ -42,9 +42,10 @@ class AlarmActivity : AppCompatActivity() {
                 minute = binding.AlarmTimePicker.currentMinute
             }
 
-            addAlarm(hour, minute)
 
-               setDataToAlarmScheduler()
+            addAlarm(hour, minute, binding.AlarmMessage.text.toString())
+
+            setDataToAlarmScheduler()
             finish()
         }
 
@@ -60,13 +61,12 @@ class AlarmActivity : AppCompatActivity() {
 
     }
 
-    private fun addAlarm(hour: Int, minute: Int) {
+    private fun addAlarm(hour: Int, minute: Int, message: String) {
 
         viewModel.setAlarm(
             Alarm(
-
-                hour = convertTo12HourFormat(hour),
-                message = "dd",
+                hour = hour.toString(),
+                message = message,
                 minute = minute.toString(),
                 active = true,
                 timePeriod = getTimeSuffix(hour),
@@ -77,9 +77,6 @@ class AlarmActivity : AppCompatActivity() {
         )
     }
 
-    private fun convertTo12HourFormat(hourOfDay: Int): String {
-        return if (hourOfDay > 12) (hourOfDay - 12).toString() else hourOfDay.toString()
-    }
 
     private fun getTimeSuffix(hourOfDay: Int): String {
         return if (hourOfDay < 12) "AM" else "PM"
