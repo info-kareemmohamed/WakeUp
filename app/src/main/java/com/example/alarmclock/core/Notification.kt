@@ -2,6 +2,7 @@ package com.example.alarmclock.core
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -16,6 +17,7 @@ class Notification(
     val NotificationId: Int,
     var title: String,
     var description: String,
+    val stopAlarmPendingIntent:PendingIntent,
     var icon: Int = R.drawable.baseline_alarm_add_24
 ) {
 
@@ -36,7 +38,6 @@ class Notification(
     private fun getNotificationBuilder(context: Context): NotificationCompat.Builder {
         val buttonReceiverPendingIntent =
             AndroidAlarmScheduler(context).createButtonReceiver(context)
-        val stopAlarmPendingIntent = AndroidAlarmScheduler(context).createStopAlarm(context)
         return NotificationCompat.Builder(context, ChannelId).apply {
             setSmallIcon(icon)
             setContentTitle(title)

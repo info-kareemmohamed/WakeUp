@@ -1,4 +1,4 @@
-package com.example.alarmclock.data.entity
+package com.example.alarmclock.data.alarm.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

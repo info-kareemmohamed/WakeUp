@@ -15,12 +15,25 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action.equals("com.tester.alarmmanager")) {
 
-            Notification(
-                NotificationId = 1, // Unique ID for the notification
-                title = "Alarm Triggered",
-                description = "Your alarm has been triggered!"
-            ).displayNotification(context!!)
+            val alarmId = intent?.getIntExtra("alarmId", 1)
+            val message = intent?.getStringExtra("message") ?: "No message available"
+            val time = intent?.getStringExtra("time") ?: "Unknown time"
 
+            val notificationTitle = "Alarm Triggered : $time"
+            val notificationDescription =
+                "Message: $message"
+            Notification(
+                NotificationId = alarmId!!, // Unique ID for the notification
+                title = notificationTitle,
+                description = notificationDescription,
+                stopAlarmPendingIntent = AndroidAlarmScheduler(context!!).createStopAlarm(
+                    context,
+                    alarmId,
+                    message,
+                    time
+                )
+
+            ).displayNotification(context)
             Log.d("wwwwwwwwww", "wwwwwwwwwwwttt")
 
 

@@ -3,11 +3,8 @@ package com.example.alarmclock.service
 
 import android.app.Application
 import android.app.Service
-
 import android.content.Intent
-
 import android.os.IBinder
-
 import com.example.alarmclock.viewmodel.AlarmViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

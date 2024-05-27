@@ -5,11 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.alarmclock.data.AlarmDatabase
+import com.example.alarmclock.data.alarm.AlarmDatabase
 import com.example.alarmclock.repository.AlarmRepository
-import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.data.alarm.entity.Alarm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class AlarmViewModel(application: Application) : AndroidViewModel(application) {
     private val alarmRepository: AlarmRepository
@@ -19,15 +21,18 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
             AlarmRepository(alarmDao = AlarmDatabase.getDatabace(application).alarmDao())
     }
 
-    fun setAlarm(alarm: Alarm) {
-        viewModelScope.launch(Dispatchers.IO) {
-            alarmRepository.setAlarm(alarm)
+    fun setAlarm(alarm: Alarm): Long {
 
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                alarmRepository.setAlarm(alarm)
+            }
         }
 
     }
 
     fun deleteAlarm(alarm: Alarm) {
+
         viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.deleteAlarm(alarm)
         }
@@ -35,9 +40,11 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun updateAlarm(alarm: Alarm) {
+
         viewModelScope.launch(Dispatchers.IO) {
             alarmRepository.updateAlarm(alarm)
         }
+
     }
 
     fun getAlarm(): LiveData<List<Alarm>> = alarmRepository.getAlarm()
@@ -47,6 +54,7 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
     fun getLastAlarm(): LiveData<Alarm?> = liveData(Dispatchers.IO) {
         emit(alarmRepository.getLastAlarm())
     }
+
     fun getAlarm(id: Int): Alarm = alarmRepository.getAlarm(id)
 
 }

@@ -14,7 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
 
-import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.data.alarm.entity.Alarm
 
 class RecyclerAdapter(
     private var dataList: List<Alarm> = emptyList(),

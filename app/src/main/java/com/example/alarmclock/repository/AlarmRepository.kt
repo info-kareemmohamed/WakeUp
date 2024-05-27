@@ -1,8 +1,8 @@
 package com.example.alarmclock.repository
 
 import androidx.lifecycle.LiveData
-import com.example.alarmclock.data.dao.AlarmDao
-import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.data.alarm.dao.AlarmDao
+import com.example.alarmclock.data.alarm.entity.Alarm
 
 class AlarmRepository(private val alarmDao: AlarmDao) {
 

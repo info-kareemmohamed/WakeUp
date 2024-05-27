@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 import com.example.alarmclock.databinding.ActivityMainBinding
-import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.recyclerview.RecyclerAdapter
 import com.example.alarmclock.recyclerview.SwipeItem
 import com.example.alarmclock.recyclerview.SwitchListener

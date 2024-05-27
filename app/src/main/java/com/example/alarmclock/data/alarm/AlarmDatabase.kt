@@ -1,11 +1,11 @@
-package com.example.alarmclock.data
+package com.example.alarmclock.data.alarm
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.alarmclock.data.dao.AlarmDao
-import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.data.alarm.dao.AlarmDao
+import com.example.alarmclock.data.alarm.entity.Alarm
 import kotlin.concurrent.Volatile
 
 @Database(entities = [Alarm::class], version = 1)

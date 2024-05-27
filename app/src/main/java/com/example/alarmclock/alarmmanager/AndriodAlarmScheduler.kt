@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.example.alarmclock.data.AlarmDatabase
-import com.example.alarmclock.data.entity.Alarm
+import com.example.alarmclock.data.alarm.AlarmDatabase
+import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.receiver.AlarmReceiver
 import com.example.alarmclock.ui.AlarmNotification
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +57,11 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             action = "com.tester.alarmmanager"
             putExtra("alarmId", alarm.id)
             putExtra("dayOfWeek", day)
+            putExtra("message", alarm.message)
+            putExtra(
+                "time",
+                handleTime(alarm.hour.toInt(), alarm.minute.toInt()) + " ${alarm.timePeriod}"
+            )
         }
         return PendingIntent.getBroadcast(
             context,
@@ -66,8 +71,20 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         )
     }
 
-    fun createStopAlarm(context: Context): PendingIntent {
-        val intent = Intent(context, AlarmNotification::class.java)
+    private fun handleTime(hourOfDay: Int, minuteOfDay: Int): String {
+        val hour12 = if (hourOfDay % 12 == 0) 12 else hourOfDay % 12
+        val formattedHour = String.format("%02d", hour12)
+        val formattedMinute = String.format("%02d", minuteOfDay)
+        return "$formattedHour:$formattedMinute"
+    }
+
+    fun createStopAlarm(context: Context, id: Int, message: String, time: String): PendingIntent {
+        val intent = Intent(context, AlarmNotification::class.java).apply {
+            putExtra("time", time)
+            putExtra("message", message)
+            putExtra("alarmId", id)
+
+        }
 
         val reqCode = "stopalarm".hashCode()
         return PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
@@ -89,10 +106,13 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
+        Log.d("wwwwwwwwwww", "$hour  $minute   aaaa")
 
         // If the time has already passed for today, move to the next week
         if (calendar.timeInMillis < System.currentTimeMillis()) {
             calendar.add(Calendar.DAY_OF_MONTH, 7)
+            Log.d("wwwwwwwwwww", "Noooooo")
+
         }
 
         return calendar
