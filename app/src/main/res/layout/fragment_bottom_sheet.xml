@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
+    tools:context=".ui.BottomSheet">
+
+
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_sunday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Sun"
+            android:text="@string/sunday" />
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_monday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Mon"
+            android:text="@string/monday" />
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_tuesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Tue"
+            android:text="@string/tuesday" />
+
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_wednesday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Wed"
+            android:text="@string/wednesday" />
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_thursday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Thu"
+            android:text="@string/thursday" />
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_friday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Fri"
+            android:text="@string/friday" />
+
+        <CheckBox
+            android:id="@+id/bottomsheet_checkbox_saturday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="Sat"
+            android:text="@string/saturday" />
+
+        <Button
+            android:id="@+id/bottomsheet_button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/button"
+            android:text="@string/save"
+            android:textColor="@color/white" />
+
+</LinearLayout>

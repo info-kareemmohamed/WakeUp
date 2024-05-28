@@ -7,6 +7,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.alarmclock.R
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
@@ -14,16 +16,18 @@ import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
 import com.example.alarmclock.viewmodel.AlarmViewModel
 
-class AlarmActivity : AppCompatActivity() {
+class AlarmActivity : AppCompatActivity(), View.OnClickListener,
+    BottomSheet.OnDaysSaveClickListener {
     private lateinit var binding: ActivityAlarmBinding
     private lateinit var viewModel: AlarmViewModel
+    private var dayOfWeek: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlarmBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
-        setOnClickListenerToBttnSave()
+        setOnClickListener()
         setupTimeNumberPicker()
     }
 
@@ -48,20 +52,30 @@ class AlarmActivity : AppCompatActivity() {
         binding.alarmNumberPickerAmPm.value = currentAmPm
     }
 
-    private fun setOnClickListenerToBttnSave() {
-        binding.alarmButtonSave.setOnClickListener {
-            val timePeriod = getTimePeriod(binding.alarmNumberPickerAmPm.value)
-
-            addAlarm(
-                getHour(timePeriod, binding.alarmNumberPickerHour.value).toString(),
-                binding.alarmNumberPickerMinute.value.toString(),
-                timePeriod,
-                binding.alarmEditTextMessage.text.toString()
-            )
+    private fun setOnClickListener() {
+        binding.alarmTextViewDays.setOnClickListener(this)
+        binding.alarmTextViewTitleDays.setOnClickListener(this)
+        binding.alarmTextViewSound.setOnClickListener(this)
+        binding.alarmTextViewTitleSound.setOnClickListener(this)
+        binding.alarmButtonSave.setOnClickListener(this)
+    }
 
 
-            finish()
-        }
+    private fun handleSaveButtonClick() {
+
+        val timePeriod = getTimePeriod(binding.alarmNumberPickerAmPm.value)
+        val hour = getHour(timePeriod, binding.alarmNumberPickerHour.value)
+
+        addAlarm(
+            hour.toString(),
+            binding.alarmNumberPickerMinute.value.toString(),
+            timePeriod,
+            binding.alarmEditTextMessage.text.toString()
+        )
+
+
+        finish()
+
     }
 
 
@@ -69,14 +83,16 @@ class AlarmActivity : AppCompatActivity() {
         viewModel.getLastAlarm().observe(this) {
             AndroidAlarmScheduler(context = applicationContext).scheduler(
                 it
-
             )
-            Log.d("wwwwwwwwwww", "${it?.hour}  ${it?.minute}  LLLL")
-
-
         }
+    }
 
-
+    private fun getDaysOfWeek(): String {
+        if (dayOfWeek.isEmpty()) {
+            val currentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+            return currentDayOfWeek.toString()
+        }
+        return dayOfWeek
     }
 
     private fun addAlarm(hour: String, minute: String, timePeriod: String, message: String) {
@@ -88,12 +104,11 @@ class AlarmActivity : AppCompatActivity() {
                 minute = minute,
                 active = true,
                 timePeriod = timePeriod,
-                days = "${Calendar.MONDAY}",
+                days = getDaysOfWeek(),
                 modeIcon = getIcon(timePeriod),
                 id = 0
             )
         )
-        Log.d("wwwwwwwww", check.toString())
         if (check != 0L) setDataToAlarmScheduler()
     }
 
@@ -109,5 +124,42 @@ class AlarmActivity : AppCompatActivity() {
     private fun getTimePeriod(timePeriod: Int): String {
         return if (timePeriod == 0) "AM" else "PM"
     }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.alarm_text_view_title_days, R.id.alarm_text_view_days -> showBottomSheet()
+            R.id.alarm_text_view_title_sound, R.id.alarm_text_view_sound -> Toast.makeText(
+                this@AlarmActivity,
+                "Set sound",
+                Toast.LENGTH_LONG
+            ).show()
+
+            R.id.alarm_button_save -> handleSaveButtonClick()
+        }
+    }
+
+    private fun showBottomSheet() {
+        val modal = BottomSheet()
+        supportFragmentManager.let { modal.show(it, BottomSheet.TAG) }
+    }
+
+    override fun onButtonSave(days: List<String>) {
+        dayOfWeek = days.joinToString(",") { calendarDay(it) }
+    }
+
+    private fun calendarDay(day: String): String {
+        return when (day) {
+            "Sun" -> "${Calendar.SUNDAY}"
+            "Mon" -> "${Calendar.MONDAY}"
+            "Tue" -> "${Calendar.TUESDAY}"
+            "Wed" -> "${Calendar.WEDNESDAY}"
+            "Thu" -> "${Calendar.THURSDAY}"
+            "Fri" -> "${Calendar.FRIDAY}"
+            "Sat" -> "${Calendar.SATURDAY}"
+            else -> ""
+        }
+
+    }
+
 
 }

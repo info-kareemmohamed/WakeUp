@@ -37,6 +37,7 @@
         android:layout_margin="@dimen/_5sdp"
         android:padding="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_10sdp"
+
         app:cardElevation="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +63,7 @@
                 android:id="@+id/alarm_text_view_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sun, Mon"
+                android:text="@string/today"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/alarm_text_view_title_days" />
