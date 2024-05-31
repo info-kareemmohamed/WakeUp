@@ -14,4 +14,6 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="today">Today</string>
+    <string name="snooze">Snooze</string>
+    <string name="wrong_answer">Wrong answer</string>
 </resources>

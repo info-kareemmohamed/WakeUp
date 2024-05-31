@@ -17,7 +17,7 @@ class Notification(
     val NotificationId: Int,
     var title: String,
     var description: String,
-    val stopAlarmPendingIntent:PendingIntent,
+    val stopAlarmPendingIntent: PendingIntent,
     var icon: Int = R.drawable.baseline_alarm_add_24
 ) {
 
@@ -72,5 +72,16 @@ class Notification(
         }
     }
 
+
+    companion object {
+
+        fun cancelNotification(context: Context, notificationId: Int) {
+            val notificationManager = ContextCompat.getSystemService(
+                context,
+                NotificationManager::class.java
+            ) as NotificationManager
+            notificationManager.cancel(notificationId)
+        }
+    }
 
 }

@@ -83,10 +83,10 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             putExtra("time", time)
             putExtra("message", message)
             putExtra("alarmId", id)
-
         }
 
-        val reqCode = "stopalarm".hashCode()
+        Log.d("wwwwwwww","NTIFICATION "+time)
+        val reqCode = "stopalarm$time$id".hashCode()
         return PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 

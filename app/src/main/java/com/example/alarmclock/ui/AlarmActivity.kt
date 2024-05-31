@@ -144,6 +144,7 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onButtonSave(days: List<String>) {
+        binding.alarmTextViewDays.text = days.joinToString(",")
         dayOfWeek = days.joinToString(",") { calendarDay(it) }
     }
 

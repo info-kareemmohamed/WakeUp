@@ -13,13 +13,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_20sdp"
-
         android:text="08:28 PM"
         android:textColor="@color/white"
         android:textSize="@dimen/_50sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/AlarmNotification_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:textColor="@color/white"
+        android:maxLines="2"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AlarmNotification_time" />
 
     <View
         android:id="@+id/AlarmNotification_view"
@@ -29,7 +40,7 @@
         android:background="@drawable/backgroundquestion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_time" />
+        app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_message" />
 
     <TextView
         android:id="@+id/AlarmNotification_title"
@@ -49,7 +60,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_50sdp"
-        android:text="4 + 15"
         android:textColor="@color/white"
         android:textSize="@dimen/_30sdp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +73,7 @@
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_5sdp"
-        android:text="30"
+        android:tag="0"
         android:textSize="@dimen/_25sdp"
         app:layout_constraintEnd_toStartOf="@id/AlarmNotification_answer2"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_15sdp"
-        android:text="5"
+        android:tag="1"
         android:textSize="@dimen/_25sdp"
         app:layout_constraintEnd_toStartOf="@id/AlarmNotification_answer3"
         app:layout_constraintStart_toEndOf="@id/AlarmNotification_answer1"
@@ -87,11 +97,22 @@
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_5sdp"
-        android:text="20"
+        android:tag="2"
         android:textSize="@dimen/_25sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/AlarmNotification_answer2"
         app:layout_constraintTop_toBottomOf="@+id/AlarmNotification_question" />
 
+    <Button
+        android:id="@+id/AlarmNotification_snooze"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/button"
+        android:text="@string/snooze"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
