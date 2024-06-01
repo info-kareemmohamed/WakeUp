@@ -39,12 +39,12 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun updateAlarm(alarm: Alarm) {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            alarmRepository.updateAlarm(alarm)
+    fun updateAlarm(alarm: Alarm):Int {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                alarmRepository.updateAlarm(alarm)
+            }
         }
-
     }
 
     fun getAlarm(): LiveData<List<Alarm>> = alarmRepository.getAlarm()

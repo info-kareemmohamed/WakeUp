@@ -15,9 +15,13 @@ import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
 import com.example.alarmclock.viewmodel.AlarmViewModel
+import kotlin.math.log
 
 class AlarmActivity : AppCompatActivity(), View.OnClickListener,
     BottomSheet.OnDaysSaveClickListener {
+    private lateinit var intent: Intent
+    private var alarm: Alarm? = null
+    private var updateMode = false
     private lateinit var binding: ActivityAlarmBinding
     private lateinit var viewModel: AlarmViewModel
     private var dayOfWeek: String = ""
@@ -28,28 +32,56 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
         setOnClickListener()
-        setupTimeNumberPicker()
+        getDataFromIntent()
     }
 
 
-    private fun setupTimeNumberPicker() {
+    private fun getDataFromIntent() {
+        intent = getIntent()
+        this.alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("Alarm", Alarm::class.java)
+        } else {
+            intent.getParcelableExtra("Alarm")
+        }
+
+        if (alarm != null) {
+            updateMode = true
+            setupTimeNumberPicker(
+                alarm!!.hour.toInt() % 12,
+                alarm!!.minute.toInt(),
+                if (alarm!!.active.equals("AM")) Calendar.AM else Calendar.PM
+            )
+        } else {
+            setupDefaultTimeNumberPicker()
+        }
+
+    }
+
+
+    private fun setupDefaultTimeNumberPicker() {
         val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR)
-        val currentMinute = calendar.get(Calendar.MINUTE)
-        val currentAmPm = calendar.get(Calendar.AM_PM)
+        setupTimeNumberPicker(
+            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.MINUTE),
+            calendar.get(Calendar.AM_PM)
+        )
+    }
+
+    private fun setupTimeNumberPicker(hour: Int, minute: Int, am_pm: Int) {
+
 
         binding.alarmNumberPickerHour.minValue = 1
         binding.alarmNumberPickerHour.maxValue = 12
-        binding.alarmNumberPickerHour.value = if (currentHour == 0) 12 else currentHour
+        binding.alarmNumberPickerHour.value = if (hour == 0) 12 else hour
 
         binding.alarmNumberPickerMinute.minValue = 0
         binding.alarmNumberPickerMinute.maxValue = 59
-        binding.alarmNumberPickerMinute.value = currentMinute
+        binding.alarmNumberPickerMinute.value = minute
 
         binding.alarmNumberPickerAmPm.minValue = 0
         binding.alarmNumberPickerAmPm.maxValue = 1
         binding.alarmNumberPickerAmPm.displayedValues = arrayOf("AM", "PM")
-        binding.alarmNumberPickerAmPm.value = currentAmPm
+        binding.alarmNumberPickerAmPm.value = am_pm
     }
 
     private fun setOnClickListener() {
@@ -66,14 +98,12 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
         val timePeriod = getTimePeriod(binding.alarmNumberPickerAmPm.value)
         val hour = getHour(timePeriod, binding.alarmNumberPickerHour.value)
 
-        addAlarm(
+        addOrUpdateAlarm(
             hour.toString(),
             binding.alarmNumberPickerMinute.value.toString(),
             timePeriod,
             binding.alarmEditTextMessage.text.toString()
         )
-
-
         finish()
 
     }
@@ -81,9 +111,7 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun setDataToAlarmScheduler() {
         viewModel.getLastAlarm().observe(this) {
-            AndroidAlarmScheduler(context = applicationContext).scheduler(
-                it
-            )
+            AndroidAlarmScheduler(context = applicationContext).scheduler(it)
         }
     }
 
@@ -95,21 +123,29 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
         return dayOfWeek
     }
 
-    private fun addAlarm(hour: String, minute: String, timePeriod: String, message: String) {
-
-        val check = viewModel.setAlarm(
-            Alarm(
-                hour = hour,
-                message = message,
-                minute = minute,
-                active = true,
-                timePeriod = timePeriod,
-                days = getDaysOfWeek(),
-                modeIcon = getIcon(timePeriod),
-                id = 0
-            )
+    private fun addOrUpdateAlarm(
+        hour: String,
+        minute: String,
+        timePeriod: String,
+        message: String
+    ) {
+        alarm = Alarm(
+            id = alarm?.id ?: 0,
+            hour = hour,
+            minute = minute,
+            message = message,
+            timePeriod = timePeriod,
+            modeIcon = getIcon(timePeriod),
+            days = getDaysOfWeek(),
+            active = true
         )
-        if (check != 0L) setDataToAlarmScheduler()
+
+        val result = if (updateMode) {
+            viewModel.updateAlarm(alarm!!)
+        } else {
+            viewModel.setAlarm(alarm!!)
+        }
+        if (result.toInt() != 0) setDataToAlarmScheduler()
     }
 
 

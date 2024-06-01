@@ -19,7 +19,7 @@ interface AlarmDao {
     suspend fun deleteAlarm(alarm: Alarm)
 
     @Update
-    suspend fun updateAlarm(alarm: Alarm)
+    suspend fun updateAlarm(alarm: Alarm):Int
     @Query("SELECT * FROM alarm_table ORDER BY id DESC LIMIT 1")
     suspend fun getLastAlarm(): Alarm?
     @Query("select * from alarm_table")

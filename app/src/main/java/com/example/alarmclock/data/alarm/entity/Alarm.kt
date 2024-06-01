@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
+
 
 @Entity(tableName = "alarm_table")
 data class Alarm(
@@ -17,7 +17,7 @@ data class Alarm(
     var active: Boolean = true,
     val modeIcon: Int,
     var timePeriod: String
-): Parcelable {
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         id = parcel.readInt(),
@@ -40,26 +40,32 @@ data class Alarm(
     }
 
 
-
-
     fun getDayName(dayIndex: Int): String {
         val daysOfWeek = arrayOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
         return if (dayIndex in 1..7) {
-            daysOfWeek[dayIndex-1]
+            daysOfWeek[dayIndex - 1]
         } else {
             "Invalid"
         }
     }
+
     fun getDaysList(dayIndices: List<Int>): String {
         return dayIndices.joinToString(" , ") { getDayName(it) }
     }
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        TODO("Not yet implemented")
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
+        parcel.writeString(message)
+        parcel.writeString(days)
+        parcel.writeString(hour)
+        parcel.writeString(minute)
+        parcel.writeByte(if (active) 1 else 0)
+        parcel.writeInt(modeIcon)
+        parcel.writeString(timePeriod)
     }
 
     companion object CREATOR : Parcelable.Creator<Alarm> {

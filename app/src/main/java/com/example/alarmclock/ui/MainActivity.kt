@@ -14,12 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.data.alarm.entity.Alarm
+import com.example.alarmclock.recyclerview.CardListener
 import com.example.alarmclock.recyclerview.RecyclerAdapter
 import com.example.alarmclock.recyclerview.SwipeItem
 import com.example.alarmclock.recyclerview.SwitchListener
 import com.example.alarmclock.viewmodel.AlarmViewModel
 
-class MainActivity : AppCompatActivity(), SwitchListener {
+class MainActivity : AppCompatActivity(), SwitchListener,CardListener {
     private lateinit var viewModel: AlarmViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerAdapter
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity(), SwitchListener {
 
         binding.MainRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.MainRecyclerView.setHasFixedSize(true)
-        adapter = RecyclerAdapter(switchListener = this)
+        adapter = RecyclerAdapter(switchListener = this, cardListener = this)
         binding.MainRecyclerView.adapter = adapter
     }
 
@@ -111,5 +112,11 @@ class MainActivity : AppCompatActivity(), SwitchListener {
 
         viewModel.updateAlarm(alarm)
 
+    }
+
+    override fun onClick(alarm: Alarm) {
+       val intent=Intent(this,AlarmActivity::class.java)
+        intent.putExtra("Alarm",alarm)
+        startActivity(intent)
     }
 }

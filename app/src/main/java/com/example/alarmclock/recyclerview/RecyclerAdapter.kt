@@ -18,7 +18,8 @@ import com.example.alarmclock.data.alarm.entity.Alarm
 
 class RecyclerAdapter(
     private var dataList: List<Alarm> = emptyList(),
-    private val switchListener: SwitchListener
+    private val switchListener: SwitchListener,
+    private val cardListener: CardListener
 ) :
     RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
@@ -59,6 +60,7 @@ class RecyclerAdapter(
 
         init {
             switchOnClick()
+            cardOnClick()
         }
 
         fun onBindView(alarm: Alarm) {
@@ -82,10 +84,15 @@ class RecyclerAdapter(
             switch.setOnClickListener {
                 switchListener.onClick(alarm, switch.isChecked)
             }
-
         }
 
-    }
+        private fun cardOnClick() {
+            cardView.setOnClickListener {
+                cardListener.onClick(alarm)
+            }
+        }
 
+
+    }
 
 }

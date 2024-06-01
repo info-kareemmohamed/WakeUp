@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.alarmclock.R
 import com.example.alarmclock.core.Notification
+import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.data.question.Question
 import com.example.alarmclock.databinding.ActivityAlarmNotificationBinding
 import com.example.alarmclock.repository.QuestionRepository
@@ -19,6 +19,7 @@ import com.example.alarmclock.viewmodel.AlarmViewModel
 
 class AlarmNotification : AppCompatActivity(), OnClickListener {
     private lateinit var intent: Intent
+    private lateinit var alarm: Alarm
     private var time: String = ""
     private var message: String = ""
     private var notificationId = 1
