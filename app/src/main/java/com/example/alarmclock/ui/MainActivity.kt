@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), SwitchListener {
 
 
     private fun setSplashScreen() {
-        Thread.sleep(3000)
+        Thread.sleep(2000)
         installSplashScreen()
     }
 

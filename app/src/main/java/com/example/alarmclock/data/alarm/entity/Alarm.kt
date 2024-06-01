@@ -1,5 +1,7 @@
 package com.example.alarmclock.data.alarm.entity
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
@@ -15,7 +17,19 @@ data class Alarm(
     var active: Boolean = true,
     val modeIcon: Int,
     var timePeriod: String
-) {
+): Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        id = parcel.readInt(),
+        message = parcel.readString() ?: "",
+        days = parcel.readString() ?: "",
+        hour = parcel.readString() ?: "",
+        minute = parcel.readString() ?: "",
+        active = parcel.readByte() != 0.toByte(),
+        modeIcon = parcel.readInt(),
+        timePeriod = parcel.readString() ?: ""
+    ) {
+    }
 
     fun getDaysOfWeek(): List<Int> {
         return days.split(",").map { it.toInt() }
@@ -40,6 +54,23 @@ data class Alarm(
         return dayIndices.joinToString(" , ") { getDayName(it) }
     }
 
+    override fun describeContents(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        TODO("Not yet implemented")
+    }
+
+    companion object CREATOR : Parcelable.Creator<Alarm> {
+        override fun createFromParcel(parcel: Parcel): Alarm {
+            return Alarm(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Alarm?> {
+            return arrayOfNulls(size)
+        }
+    }
 
 
 }
