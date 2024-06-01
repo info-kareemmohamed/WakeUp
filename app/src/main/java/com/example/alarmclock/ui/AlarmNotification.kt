@@ -1,6 +1,7 @@
 package com.example.alarmclock.ui
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View.OnClickListener
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.alarmclock.R
+import com.example.alarmclock.core.Constant
 import com.example.alarmclock.core.Notification
 import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.data.question.Question
@@ -19,18 +21,16 @@ import com.example.alarmclock.viewmodel.AlarmViewModel
 
 class AlarmNotification : AppCompatActivity(), OnClickListener {
     private lateinit var intent: Intent
-    private lateinit var alarm: Alarm
+    private var alarm: Alarm? = null
     private var time: String = ""
-    private var message: String = ""
-    private var notificationId = 1
     private lateinit var binding: ActivityAlarmNotificationBinding
     private lateinit var question: Question
-    private  lateinit var viewModel: AlarmViewModel
+    private lateinit var viewModel: AlarmViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlarmNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel=ViewModelProvider(this)[AlarmViewModel::class.java]
+        viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
         getDataFromIntent()
         setClickListener()
         setQuestion()
@@ -40,11 +40,14 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
 
     private fun getDataFromIntent() {
         intent = getIntent()
-        time = intent.getStringExtra("time")!!
-        message = intent.getStringExtra("message") ?: ""
-        notificationId = intent.getIntExtra("alarmId", 1)
+        time = intent.getStringExtra(Constant.EXTRA_TIME)!!
+        alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
+        } else {
+            intent.getParcelableExtra(Constant.EXTRA_ALARM)
+        }
         binding.AlarmNotificationTime.text = time
-        binding.AlarmNotificationMessage.text = message
+        binding.AlarmNotificationMessage.text = alarm?.message
     }
 
     private fun setClickListener() {
@@ -62,21 +65,25 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
         binding.AlarmNotificationAnswer3.text = question.answerOptions[2]
     }
 
-    private fun cancelAlarm(){
+    private fun cancelAlarm() {
 
 
-        Notification.cancelNotification(this@AlarmNotification, notificationId)
+        Notification.cancelNotification(this@AlarmNotification, alarm?.id ?: 1)
         finish()
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.AlarmNotification_answer1, R.id.AlarmNotification_answer2, R.id.AlarmNotification_answer3->{
+        when (v?.id) {
+            R.id.AlarmNotification_answer1, R.id.AlarmNotification_answer2, R.id.AlarmNotification_answer3 -> {
                 val answer = (v.tag).toString().toInt()
                 if (answer == question.correctAnswerIndex) {
                     cancelAlarm()
                 } else
-                    Toast.makeText(this@AlarmNotification,R.string.wrong_answer,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AlarmNotification,
+                        R.string.wrong_answer,
+                        Toast.LENGTH_SHORT
+                    ).show()
             }
 
         }

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.example.alarmclock.core.Constant
 import com.example.alarmclock.data.alarm.AlarmDatabase
 import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.receiver.AlarmReceiver
@@ -54,12 +55,10 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
 
     private fun getPendingIntent(alarm: Alarm, day: Int): PendingIntent {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            action = "com.tester.alarmmanager"
-            putExtra("alarmId", alarm.id)
-            putExtra("dayOfWeek", day)
-            putExtra("message", alarm.message)
+            action = Constant.ACTION_ALARM_MANAGER
+            putExtra(Constant.EXTRA_ALARM, alarm)
             putExtra(
-                "time",
+                Constant.EXTRA_TIME,
                 handleTime(alarm.hour.toInt(), alarm.minute.toInt()) + " ${alarm.timePeriod}"
             )
         }
@@ -78,25 +77,17 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         return "$formattedHour:$formattedMinute"
     }
 
-    fun createStopAlarm(context: Context, id: Int, message: String, time: String): PendingIntent {
+    fun createStopAlarm(context: Context, time: String, alarm: Alarm): PendingIntent {
         val intent = Intent(context, AlarmNotification::class.java).apply {
-            putExtra("time", time)
-            putExtra("message", message)
-            putExtra("alarmId", id)
+            putExtra(Constant.EXTRA_TIME, time)
+            putExtra(Constant.EXTRA_ALARM, alarm)
         }
 
-        Log.d("wwwwwwww","NTIFICATION "+time)
-        val reqCode = "stopalarm$time$id".hashCode()
+        val reqCode = "stopalarm$time${alarm.id}".hashCode()
         return PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 
-    fun createButtonReceiver(context: Context): PendingIntent {
-        val intent = Intent(context, AlarmReceiver::class.java)
-        intent.putExtra("NOTIFICATION_ID", "CHANNEL_ID")
-        intent.putExtra("ACTION", "off")
-        val reqCode = "btnreceiver".hashCode()
-        return PendingIntent.getBroadcast(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
-    }
+
 
     private fun getCalendar(hour: Int, minute: Int, timePeriod: String, day: Int): Calendar {
         val calendar = Calendar.getInstance().apply {
@@ -106,7 +97,6 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
-        Log.d("wwwwwwwwwww", "$hour  $minute   aaaa")
 
         // If the time has already passed for today, move to the next week
         if (calendar.timeInMillis < System.currentTimeMillis()) {

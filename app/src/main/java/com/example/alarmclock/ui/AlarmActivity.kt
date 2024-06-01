@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.alarmclock.R
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.core.Constant
 import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
 import com.example.alarmclock.viewmodel.AlarmViewModel
@@ -39,9 +40,9 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
     private fun getDataFromIntent() {
         intent = getIntent()
         this.alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("Alarm", Alarm::class.java)
+            intent.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
         } else {
-            intent.getParcelableExtra("Alarm")
+            intent.getParcelableExtra(Constant.EXTRA_ALARM)
         }
 
         if (alarm != null) {
@@ -150,7 +151,13 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
 
 
     private fun getHour(timePeriod: String, hour: Int): Int {
-        return if (timePeriod == "AM") hour else hour + 12
+        return if (timePeriod == "PM" && hour != 12) {
+            hour + 12
+        } else if (timePeriod == "AM" && hour == 12) {
+            0
+        } else {
+            hour
+        }
     }
 
     private fun getIcon(timePeriod: String): Int {

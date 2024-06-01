@@ -36,8 +36,7 @@ class Notification(
 
 
     private fun getNotificationBuilder(context: Context): NotificationCompat.Builder {
-        val buttonReceiverPendingIntent =
-            AndroidAlarmScheduler(context).createButtonReceiver(context)
+
         return NotificationCompat.Builder(context, ChannelId).apply {
             setSmallIcon(icon)
             setContentTitle(title)
@@ -47,7 +46,6 @@ class Notification(
             setOngoing(true)
 
             setFullScreenIntent(stopAlarmPendingIntent, true)
-            addAction(R.drawable.baseline_alarm_add_24, "Solve", buttonReceiverPendingIntent)
         }
 
 

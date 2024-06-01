@@ -4,33 +4,30 @@ package com.example.alarmclock.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.core.Constant
 import com.example.alarmclock.core.Notification
+import com.example.alarmclock.data.alarm.entity.Alarm
 
 
 class AlarmReceiver : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action.equals("com.tester.alarmmanager")) {
+        if (intent?.action.equals(Constant.ACTION_ALARM_MANAGER)) {
 
-            val alarmId = intent?.getIntExtra("alarmId", 1)
-            val message = intent?.getStringExtra("message") ?: "No message available"
-            val time = intent?.getStringExtra("time") ?: "Unknown time"
-
-            val notificationTitle = "Alarm Triggered : $time"
-            val notificationDescription =
-                "Message: $message"
+            val alarm =getAlarmFromIntent(intent)
+            val time = intent?.getStringExtra(Constant.EXTRA_TIME) ?: "Unknown time"
             Notification(
-                NotificationId = alarmId!!, // Unique ID for the notification
-                title = notificationTitle,
-                description = notificationDescription,
+                NotificationId = alarm?.id ?: 1, // Unique ID for the notification
+                title =  "Alarm Triggered : $time",
+                description =  "Message: ${alarm?.message}",
                 stopAlarmPendingIntent = AndroidAlarmScheduler(context!!).createStopAlarm(
                     context,
-                    alarmId,
-                    message,
-                    time
+                    time,
+                    alarm!!
                 )
 
             ).displayNotification(context)
@@ -45,6 +42,14 @@ class AlarmReceiver : BroadcastReceiver() {
         }
 
 
+    }
+
+    private fun getAlarmFromIntent(intent: Intent?): Alarm? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent?.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
+        } else {
+            intent?.getParcelableExtra(Constant.EXTRA_ALARM)
+        }
     }
 
 }

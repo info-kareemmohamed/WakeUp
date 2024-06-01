@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.core.Constant
 import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.recyclerview.CardListener
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity(), SwitchListener,CardListener {
 
     override fun onClick(alarm: Alarm) {
        val intent=Intent(this,AlarmActivity::class.java)
-        intent.putExtra("Alarm",alarm)
+        intent.putExtra(Constant.EXTRA_ALARM,alarm)
         startActivity(intent)
     }
 }
