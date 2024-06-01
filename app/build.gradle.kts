@@ -36,15 +36,19 @@ android {
     }
 
     buildFeatures {
-        viewBinding= true
+        viewBinding = true
     }
 }
 
 dependencies {
 
+//SplashScreen
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
 
-implementation("androidx.lifecycle:lifecycle-process:2.8.0")
+    ///////////////
+
+    implementation("androidx.lifecycle:lifecycle-process:2.8.0")
     //Room
 //////////
     val room_version = "2.6.1"
@@ -67,7 +71,7 @@ implementation("androidx.lifecycle:lifecycle-process:2.8.0")
     implementation("com.intuit.ssp:ssp-android:1.1.1")
     implementation("com.intuit.sdp:sdp-android:1.1.1")
 ////////////
-    implementation ("it.xabaras.android:recyclerview-swipedecorator:1.4")
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
 ////////////
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

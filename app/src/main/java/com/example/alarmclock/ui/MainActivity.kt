@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), SwitchListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
+        setSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
@@ -35,10 +37,13 @@ class MainActivity : AppCompatActivity(), SwitchListener {
         setStatusBarIcon(true)
 
 
-
-
     }
 
+
+    private fun setSplashScreen() {
+        Thread.sleep(3000)
+        installSplashScreen()
+    }
 
     private fun getDataFromViewModel() {
 
@@ -47,8 +52,6 @@ class MainActivity : AppCompatActivity(), SwitchListener {
         }
 
     }
-
-
 
 
     private fun setStatusBarIcon(enabled: Boolean) {

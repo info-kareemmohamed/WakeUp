@@ -7,6 +7,7 @@
     <color name="checked_thumb">#FFFFFFFF</color>
     <color name="unchecked_track">#cdcdcd</color>
     <color name="checked_track">#578CDA</color>
+    <color name="blue">#578CDA</color>
     <color name="recyclerview_delete">#BC1C1C</color>
 
 </resources>
