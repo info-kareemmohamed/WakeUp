@@ -17,6 +17,6 @@ class AlarmRepository(private val alarmDao: AlarmDao) {
     fun getAlarm(): LiveData<List<Alarm>> = alarmDao.getAlarm()
     fun getActiveAlarm(): List<Alarm> = alarmDao.getActiveAlarm()
     fun getNotActiveAlarm(): LiveData<List<Alarm>> = alarmDao.getNotActiveAlarm()
-    fun getAlarm(id: Int): Alarm = alarmDao.getAlarm(id)
+    suspend  fun getAlarm(id: Int): Alarm = alarmDao.getAlarm(id)
 
 }

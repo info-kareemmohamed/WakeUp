@@ -39,7 +39,7 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun updateAlarm(alarm: Alarm):Int {
+    fun updateAlarm(alarm: Alarm): Int {
         return runBlocking {
             withContext(Dispatchers.IO) {
                 alarmRepository.updateAlarm(alarm)
@@ -55,6 +55,12 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
         emit(alarmRepository.getLastAlarm())
     }
 
-    fun getAlarm(id: Int): Alarm = alarmRepository.getAlarm(id)
+    fun getAlarm(id: Int): Alarm {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                alarmRepository.getAlarm(id)
+            }
+        }
+    }
 
 }

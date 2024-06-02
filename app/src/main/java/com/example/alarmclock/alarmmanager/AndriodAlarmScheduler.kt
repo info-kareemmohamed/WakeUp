@@ -77,13 +77,13 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
         return "$formattedHour:$formattedMinute"
     }
 
-    fun createStopAlarm(context: Context, time: String, alarm: Alarm): PendingIntent {
+    fun createStopAlarm(context: Context, time: String, id:Int): PendingIntent {
         val intent = Intent(context, AlarmNotification::class.java).apply {
             putExtra(Constant.EXTRA_TIME, time)
-            putExtra(Constant.EXTRA_ALARM, alarm)
+            putExtra(Constant.EXTRA_ID, id)
         }
 
-        val reqCode = "stopalarm$time${alarm.id}".hashCode()
+        val reqCode = "stopalarm$time${id}".hashCode()
         return PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 

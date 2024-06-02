@@ -32,5 +32,5 @@ interface AlarmDao {
     fun getNotActiveAlarm(): LiveData<List<Alarm>>
 
     @Query("SELECT * FROM alarm_table WHERE id = :id")
-    fun getAlarm(id: Int): Alarm
+    suspend fun getAlarm(id: Int): Alarm
 }

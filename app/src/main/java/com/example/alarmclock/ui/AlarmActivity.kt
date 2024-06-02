@@ -6,6 +6,7 @@ import java.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -22,6 +23,7 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
     BottomSheet.OnDaysSaveClickListener {
     private lateinit var intent: Intent
     private var alarm: Alarm? = null
+    private var oldAlarm: Alarm? = null
     private var updateMode = false
     private lateinit var binding: ActivityAlarmBinding
     private lateinit var viewModel: AlarmViewModel
@@ -39,12 +41,12 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun getDataFromIntent() {
         intent = getIntent()
-        this.alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
         } else {
             intent.getParcelableExtra(Constant.EXTRA_ALARM)
         }
-
+        oldAlarm = alarm
         if (alarm != null) {
             updateMode = true
             setupTimeNumberPicker(
@@ -52,6 +54,8 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
                 alarm!!.minute.toInt(),
                 if (alarm!!.active.equals("AM")) Calendar.AM else Calendar.PM
             )
+            binding.alarmTextViewDays.text = alarm?.getDaysOfWeek()?.joinToString(",") { dayName(it) }
+            binding.alarmEditTextMessage.text =  Editable.Factory.getInstance().newEditable(alarm?.message)
         } else {
             setupDefaultTimeNumberPicker()
         }
@@ -142,6 +146,7 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
         )
 
         val result = if (updateMode) {
+            AndroidAlarmScheduler(this).cancel(oldAlarm!!)
             viewModel.updateAlarm(alarm!!)
         } else {
             viewModel.setAlarm(alarm!!)
@@ -205,5 +210,17 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
 
     }
 
+    private fun dayName(day: Int): String {
+        return when (day) {
+            Calendar.SUNDAY -> "Sun"
+            Calendar.MONDAY -> "Mon"
+            Calendar.TUESDAY -> "Tue"
+            Calendar.WEDNESDAY -> "Wed"
+            Calendar.THURSDAY -> "Thu"
+            Calendar.FRIDAY -> "Fri"
+            Calendar.SATURDAY -> "Sat"
+            else -> ""
+        }
+    }
 
 }

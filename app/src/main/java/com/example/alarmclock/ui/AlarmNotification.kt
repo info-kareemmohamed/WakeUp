@@ -23,6 +23,7 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
     private lateinit var intent: Intent
     private var alarm: Alarm? = null
     private var time: String = ""
+    private var id: Int = 1
     private lateinit var binding: ActivityAlarmNotificationBinding
     private lateinit var question: Question
     private lateinit var viewModel: AlarmViewModel
@@ -41,11 +42,8 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
     private fun getDataFromIntent() {
         intent = getIntent()
         time = intent.getStringExtra(Constant.EXTRA_TIME)!!
-        alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
-        } else {
-            intent.getParcelableExtra(Constant.EXTRA_ALARM)
-        }
+        id = intent.getIntExtra(Constant.EXTRA_ID, 1)
+        alarm = viewModel.getAlarm(id)
         binding.AlarmNotificationTime.text = time
         binding.AlarmNotificationMessage.text = alarm?.message
     }
@@ -66,10 +64,18 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
     }
 
     private fun cancelAlarm() {
-
-
-        Notification.cancelNotification(this@AlarmNotification, alarm?.id ?: 1)
-        finish()
+        val days = alarm?.getDaysOfWeek()?.toMutableList()
+        if (days != null && days.size > 1) {
+            days.removeAt(0)
+            alarm?.setDaysOfWeek(days)
+        } else {
+            alarm?.active = false
+        }
+        alarm?.let {
+            viewModel.updateAlarm(it)
+            Notification.cancelNotification(this@AlarmNotification, it.id)
+            finish()
+        }
     }
 
     override fun onClick(v: View?) {

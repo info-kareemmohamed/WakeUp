@@ -18,7 +18,7 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action.equals(Constant.ACTION_ALARM_MANAGER)) {
 
-            val alarm =getAlarmFromIntent(intent)
+            var alarm =getAlarmFromIntent(intent)
             val time = intent?.getStringExtra(Constant.EXTRA_TIME) ?: "Unknown time"
             Notification(
                 NotificationId = alarm?.id ?: 1, // Unique ID for the notification
@@ -27,7 +27,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 stopAlarmPendingIntent = AndroidAlarmScheduler(context!!).createStopAlarm(
                     context,
                     time,
-                    alarm!!
+                    alarm?.id?:1
                 )
 
             ).displayNotification(context)
