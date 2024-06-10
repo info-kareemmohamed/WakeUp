@@ -54,8 +54,11 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
                 alarm!!.minute.toInt(),
                 if (alarm!!.active.equals("AM")) Calendar.AM else Calendar.PM
             )
-            binding.alarmTextViewDays.text = alarm?.getDaysOfWeek()?.joinToString(",") { dayName(it) }
-            binding.alarmEditTextMessage.text =  Editable.Factory.getInstance().newEditable(alarm?.message)
+            binding.alarmTextViewDays.text =
+                alarm?.getDaysOfWeek()?.joinToString(",") { dayName(it) }
+            dayOfWeek = alarm?.days + ""
+            binding.alarmEditTextMessage.text =
+                Editable.Factory.getInstance().newEditable(alarm?.message)
         } else {
             setupDefaultTimeNumberPicker()
         }
