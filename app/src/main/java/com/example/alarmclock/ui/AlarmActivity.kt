@@ -16,13 +16,16 @@ import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 import com.example.alarmclock.core.Constant
 import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
+import com.example.alarmclock.service.AlarmsService
 import com.example.alarmclock.viewmodel.AlarmViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.math.log
 
 class AlarmActivity : AppCompatActivity(), View.OnClickListener,
-    BottomSheet.OnDaysSaveClickListener {
+    DayBottomSheet.OnDaysSaveClickListener, SoundBottomSheet.OnSoundSaveClickListener {
     private lateinit var intent: Intent
     private var alarm: Alarm? = null
+    private var sound: Int = R.raw.default_sound
     private var oldAlarm: Alarm? = null
     private var updateMode = false
     private lateinit var binding: ActivityAlarmBinding
@@ -178,21 +181,24 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.alarm_text_view_title_days, R.id.alarm_text_view_days -> showBottomSheet()
-            R.id.alarm_text_view_title_sound, R.id.alarm_text_view_sound -> Toast.makeText(
-                this@AlarmActivity,
-                "Set sound",
-                Toast.LENGTH_LONG
-            ).show()
+            R.id.alarm_text_view_title_days, R.id.alarm_text_view_days -> showBottomSheet(
+                DayBottomSheet(),
+                DayBottomSheet.TAG
+            )
+
+            R.id.alarm_text_view_title_sound, R.id.alarm_text_view_sound -> showBottomSheet(
+                SoundBottomSheet(),
+                SoundBottomSheet.TAG
+            )
 
             R.id.alarm_button_save -> handleSaveButtonClick()
         }
     }
 
-    private fun showBottomSheet() {
-        val modal = BottomSheet()
-        supportFragmentManager.let { modal.show(it, BottomSheet.TAG) }
+    private fun showBottomSheet(modal: BottomSheetDialogFragment, tag: String) {
+        supportFragmentManager.let { modal.show(it, DayBottomSheet.TAG) }
     }
+
 
     override fun onButtonSave(days: List<String>) {
         binding.alarmTextViewDays.text = days.joinToString(",")
@@ -224,6 +230,10 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
             Calendar.SATURDAY -> "Sat"
             else -> ""
         }
+    }
+
+    override fun onButtonSave(sound: Int) {
+        this.sound = sound
     }
 
 }

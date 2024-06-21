@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RadioGroup
+        android:id="@+id/bottomsheet_radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_default_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="default_sound"
+            android:text="Default sound" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_classic_winner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="classic_winner"
+            android:text="Classic winner" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_digital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="digital"
+            android:text="Digital" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_emergency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="emergency"
+            android:text="Emergency" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_facility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="facility"
+            android:text="Facility" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_morning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="morning"
+            android:text="Morning" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_rooster_crowing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="rooster_crowing"
+            android:text="Rooster crowing" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_rooster_security"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="security"
+            android:text="Security" />
+
+        <RadioButton
+            android:id="@+id/bottomsheet_radiobutton_rooster_sound_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="sound_alert"
+            android:text="Sound alert" />
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/bottomsheet_button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/button"
+        android:text="@string/save"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

@@ -28,7 +28,7 @@
         android:theme="@style/Theme.AlarmClock"
         tools:targetApi="31">
         <service
-            android:name=".service.RestartAlarmsService"
+            android:name=".service.AlarmsService"
             android:enabled="true"
             android:exported="true"/>
 

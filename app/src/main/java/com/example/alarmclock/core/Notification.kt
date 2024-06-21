@@ -1,5 +1,6 @@
 package com.example.alarmclock.core
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -21,17 +22,19 @@ class Notification(
     var icon: Int = R.drawable.baseline_alarm_add_24
 ) {
 
-    fun displayNotification(context: Context) {
+    fun getAndDisplayNotification(context: Context):Notification {
         val notificationManager = getNotificationManager(context)
 
         //  Create a notification channel for Android Oreo and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(getNotificationChannel())
         }
+        var notificationBuilder=getNotificationBuilder(context).build()
 
         with(notificationManager) {
-            notify(NotificationId, getNotificationBuilder(context).build())
+            notify(NotificationId, notificationBuilder)
         }
+        return notificationBuilder
     }
 
 

@@ -16,6 +16,7 @@ import com.example.alarmclock.data.alarm.entity.Alarm
 import com.example.alarmclock.data.question.Question
 import com.example.alarmclock.databinding.ActivityAlarmNotificationBinding
 import com.example.alarmclock.repository.QuestionRepository
+import com.example.alarmclock.service.AlarmsService
 import com.example.alarmclock.viewmodel.AlarmViewModel
 
 
@@ -73,7 +74,9 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
         }
         alarm?.let {
             viewModel.updateAlarm(it)
+
             Notification.cancelNotification(this@AlarmNotification, it.id)
+            stopService(Intent(this, AlarmsService::class.java))
             finish()
         }
     }
