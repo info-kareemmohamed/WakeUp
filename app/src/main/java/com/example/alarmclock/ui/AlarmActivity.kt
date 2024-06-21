@@ -148,6 +148,7 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
             timePeriod = timePeriod,
             modeIcon = getIcon(timePeriod),
             days = getDaysOfWeek(),
+            sound = sound,
             active = true
         )
 
@@ -232,7 +233,8 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    override fun onButtonSave(sound: Int) {
+    override fun onButtonSave(sound: Int, name: String) {
+        binding.alarmTextViewSound.text = name
         this.sound = sound
     }
 

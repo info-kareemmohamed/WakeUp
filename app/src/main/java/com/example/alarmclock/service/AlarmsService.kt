@@ -38,7 +38,7 @@ class AlarmsService : Service() {
         startForeground(alarm?.id ?: 1, notification)
 
 
-        alarmSound = AlarmSound(this, R.raw.default_sound)
+        alarmSound = AlarmSound(this, alarm!!.sound)
         alarmSound.startSound()
 
         return START_STICKY

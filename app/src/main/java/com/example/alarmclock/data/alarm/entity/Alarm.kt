@@ -5,7 +5,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity(tableName = "alarm_table")
 data class Alarm(
     @PrimaryKey(autoGenerate = true)
@@ -16,20 +15,21 @@ data class Alarm(
     var minute: String,
     var active: Boolean = true,
     val modeIcon: Int,
+    val sound: Int,
     var timePeriod: String
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        id = parcel.readInt(),
-        message = parcel.readString() ?: "",
-        days = parcel.readString() ?: "",
-        hour = parcel.readString() ?: "",
-        minute = parcel.readString() ?: "",
-        active = parcel.readByte() != 0.toByte(),
-        modeIcon = parcel.readInt(),
-        timePeriod = parcel.readString() ?: ""
-    ) {
-    }
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readByte() != 0.toByte(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readString() ?: ""
+    )
 
     fun getDaysOfWeek(): List<Int> {
         return days.split(",").map { it.toInt() }
@@ -39,7 +39,6 @@ data class Alarm(
         days = daysOfWeek.joinToString(",")
     }
 
-
     fun getDayName(dayIndex: Int): String {
         val daysOfWeek = arrayOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
         return if (dayIndex in 1..7) {
@@ -48,8 +47,6 @@ data class Alarm(
             "Invalid"
         }
     }
-
-
 
     fun getDaysList(dayIndices: List<Int>): String {
         return dayIndices.joinToString(" , ") { getDayName(it) }
@@ -67,6 +64,7 @@ data class Alarm(
         parcel.writeString(minute)
         parcel.writeByte(if (active) 1 else 0)
         parcel.writeInt(modeIcon)
+        parcel.writeInt(sound)
         parcel.writeString(timePeriod)
     }
 
@@ -79,6 +77,4 @@ data class Alarm(
             return arrayOfNulls(size)
         }
     }
-
-
 }

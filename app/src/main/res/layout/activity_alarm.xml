@@ -91,7 +91,7 @@
                 android:id="@+id/alarm_text_view_sound"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Alarm sound"
+                android:text="@string/default_sound"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/alarm_text_view_title_sound" />

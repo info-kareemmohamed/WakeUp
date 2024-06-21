@@ -57,15 +57,15 @@ class SoundBottomSheet : BottomSheetDialogFragment() {
                     val selectedTag = selectedRadioButton.tag.toString()
 
                     when (selectedTag) {
-                        "default_sound" -> onSoundSaveClickListener.onButtonSave(R.raw.default_sound)
-                        "classic_winner" -> onSoundSaveClickListener.onButtonSave(R.raw.classic_winner)
-                        "digital" -> onSoundSaveClickListener.onButtonSave(R.raw.digital)
-                        "emergency" -> onSoundSaveClickListener.onButtonSave(R.raw.emergency)
-                        "facility" -> onSoundSaveClickListener.onButtonSave(R.raw.facility)
-                        "morning" -> onSoundSaveClickListener.onButtonSave(R.raw.morning)
-                        "rooster_crowing" -> onSoundSaveClickListener.onButtonSave(R.raw.ooster_crowing)
-                        "security" -> onSoundSaveClickListener.onButtonSave(R.raw.security)
-                        "sound_alert" -> onSoundSaveClickListener.onButtonSave(R.raw.sound_alert)
+                        "default_sound" -> onSoundSaveClickListener.onButtonSave(R.raw.default_sound,"Default sound")
+                        "classic_winner" -> onSoundSaveClickListener.onButtonSave(R.raw.classic_winner,"Classic winner")
+                        "digital" -> onSoundSaveClickListener.onButtonSave(R.raw.digital,"Digital")
+                        "emergency" -> onSoundSaveClickListener.onButtonSave(R.raw.emergency, "Emergency")
+                        "facility" -> onSoundSaveClickListener.onButtonSave(R.raw.facility,"Facility")
+                        "morning" -> onSoundSaveClickListener.onButtonSave(R.raw.morning,  "Morning")
+                        "rooster_crowing" -> onSoundSaveClickListener.onButtonSave(R.raw.ooster_crowing, "Rooster crowing")
+                        "security" -> onSoundSaveClickListener.onButtonSave(R.raw.security, "Security")
+                        "sound_alert" -> onSoundSaveClickListener.onButtonSave(R.raw.sound_alert, "Sound alert")
                     }
 
 
@@ -94,7 +94,7 @@ class SoundBottomSheet : BottomSheetDialogFragment() {
 
     interface OnSoundSaveClickListener {
 
-        fun onButtonSave(sound: Int)
+        fun onButtonSave(sound: Int,name:String)
 
     }
 

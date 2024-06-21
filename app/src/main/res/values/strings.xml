@@ -16,4 +16,5 @@
     <string name="today">Today</string>
     <string name="snooze">Snooze</string>
     <string name="wrong_answer">Wrong answer</string>
+    <string name="default_sound">Default sound</string>
 </resources>
