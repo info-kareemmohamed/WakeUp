@@ -1,4 +1,4 @@
-package com.example.alarmclock.data.alarm.dao
+package com.example.alarmclock.data.local.alarm.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -6,14 +6,13 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.alarmclock.data.alarm.entity.Alarm
-import kotlinx.coroutines.flow.Flow
+import com.example.alarmclock.data.model.Alarm
 
 
 @Dao
 interface AlarmDao {
     @Insert
-    suspend fun setAlarm(alarm: Alarm):Long
+    suspend fun insertAlarm(alarm: Alarm):Long
 
     @Delete
     suspend fun deleteAlarm(alarm: Alarm)
@@ -32,5 +31,5 @@ interface AlarmDao {
     fun getNotActiveAlarm(): LiveData<List<Alarm>>
 
     @Query("SELECT * FROM alarm_table WHERE id = :id")
-    suspend fun getAlarm(id: Int): Alarm
+    suspend fun getAlarmById(id: Int): Alarm
 }

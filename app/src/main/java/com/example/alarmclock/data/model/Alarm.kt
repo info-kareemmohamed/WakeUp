@@ -1,4 +1,4 @@
-package com.example.alarmclock.data.alarm.entity
+package com.example.alarmclock.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
