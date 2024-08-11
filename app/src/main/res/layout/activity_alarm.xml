@@ -47,6 +47,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/space_cadet"
             android:padding="@dimen/_10sdp">
 
             <TextView
@@ -116,6 +117,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/alarm_edit_text_message"
+                    android:background="@color/space_cadet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>

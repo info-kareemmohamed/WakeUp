@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.alarmclock.R
-import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
 
 class Notification(
     val NotificationName: String = "Alarm Notifications",
