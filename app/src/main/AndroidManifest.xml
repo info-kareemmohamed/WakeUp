@@ -23,6 +23,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/alarmlogo"
         android:label="@string/app_name"
+        android:name=".AlarmApp"
         android:roundIcon="@drawable/alarmlogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock"
@@ -33,17 +34,17 @@
             android:exported="true"/>
 
         <activity
-            android:name=".ui.AlarmNotification"
+            android:name=".presentation.alarm_challenge_screen.AlarmChallengeScreen"
             android:showOnLockScreen="true"
             android:showForAllUsers="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:exported="false" />
         <activity
-            android:name=".ui.AlarmActivity"
+            android:name=".presentation.alarm_screen.AlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".presentation.home_screen.ui.MainActivity"
             android:theme="@style/Theme.App.SplashScreen"
             android:exported="true">
             <intent-filter>
