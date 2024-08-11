@@ -1,38 +1,34 @@
-package com.example.alarmclock.ui
+package com.example.alarmclock.presentation.alarm_challenge_screen
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.example.alarmclock.R
-import com.example.alarmclock.core.Constant
-import com.example.alarmclock.core.Notification
-import com.example.alarmclock.data.alarm.entity.Alarm
-import com.example.alarmclock.data.question.Question
-import com.example.alarmclock.databinding.ActivityAlarmNotificationBinding
-import com.example.alarmclock.repository.QuestionRepository
+import com.example.alarmclock.common.core.Constant
+import com.example.alarmclock.common.core.Notification
+import com.example.alarmclock.data.model.Alarm
+import com.example.alarmclock.data.model.Question
+import com.example.alarmclock.databinding.ActivityAlarmChallengeBinding
 import com.example.alarmclock.service.AlarmsService
-import com.example.alarmclock.viewmodel.AlarmViewModel
+import com.example.alarmclock.presentation.viewmodel.AlarmViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class AlarmNotification : AppCompatActivity(), OnClickListener {
-    private lateinit var intent: Intent
+@AndroidEntryPoint
+class AlarmChallengeScreen : AppCompatActivity(), OnClickListener {
     private var alarm: Alarm? = null
     private var time: String = ""
     private var id: Int = 1
-    private lateinit var binding: ActivityAlarmNotificationBinding
+    private lateinit var binding: ActivityAlarmChallengeBinding
     private lateinit var question: Question
-    private lateinit var viewModel: AlarmViewModel
+    private val viewModel: AlarmViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAlarmNotificationBinding.inflate(layoutInflater)
+        binding = ActivityAlarmChallengeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
         getDataFromIntent()
         setClickListener()
         setQuestion()
@@ -41,10 +37,9 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
     }
 
     private fun getDataFromIntent() {
-        intent = getIntent()
         time = intent.getStringExtra(Constant.EXTRA_TIME)!!
         id = intent.getIntExtra(Constant.EXTRA_ID, 1)
-        alarm = viewModel.getAlarm(id)
+        alarm = viewModel.getAlarmById(id)
         binding.AlarmNotificationTime.text = time
         binding.AlarmNotificationMessage.text = alarm?.message
     }
@@ -57,7 +52,7 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
     }
 
     private fun setQuestion() {
-        question = QuestionRepository().getQuestion()
+        question = viewModel.getQuestion()
         binding.AlarmNotificationQuestion.text = question.questionText
         binding.AlarmNotificationAnswer1.text = question.answerOptions[0]
         binding.AlarmNotificationAnswer2.text = question.answerOptions[1]
@@ -75,7 +70,7 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
         alarm?.let {
             viewModel.updateAlarm(it)
 
-            Notification.cancelNotification(this@AlarmNotification, it.id)
+            Notification.cancelNotification(this@AlarmChallengeScreen, it.id)
             stopService(Intent(this, AlarmsService::class.java))
             finish()
         }
@@ -89,7 +84,7 @@ class AlarmNotification : AppCompatActivity(), OnClickListener {
                     cancelAlarm()
                 } else
                     Toast.makeText(
-                        this@AlarmNotification,
+                        this@AlarmChallengeScreen,
                         R.string.wrong_answer,
                         Toast.LENGTH_SHORT
                     ).show()

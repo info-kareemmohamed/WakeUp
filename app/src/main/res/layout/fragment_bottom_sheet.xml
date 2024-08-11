@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/_15sdp"
-    tools:context=".ui.DayBottomSheet">
+    tools:context=".presentation.alarm_screen.DayBottomSheet">
 
 
 

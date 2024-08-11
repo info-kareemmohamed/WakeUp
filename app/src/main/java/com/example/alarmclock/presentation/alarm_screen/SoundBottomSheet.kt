@@ -1,4 +1,4 @@
-package com.example.alarmclock.ui
+package com.example.alarmclock.presentation.alarm_screen
 
 
 import android.content.Context

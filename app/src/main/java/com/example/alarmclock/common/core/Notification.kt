@@ -1,4 +1,4 @@
-package com.example.alarmclock.core
+package com.example.alarmclock.common.core
 
 import android.app.Notification
 import android.app.NotificationChannel

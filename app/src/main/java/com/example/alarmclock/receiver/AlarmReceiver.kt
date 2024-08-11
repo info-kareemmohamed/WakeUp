@@ -7,10 +7,9 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.core.Constant
-import com.example.alarmclock.core.Notification
-import com.example.alarmclock.data.alarm.entity.Alarm
+import com.example.alarmclock.common.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.common.core.Constant
+import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.service.AlarmsService
 
 

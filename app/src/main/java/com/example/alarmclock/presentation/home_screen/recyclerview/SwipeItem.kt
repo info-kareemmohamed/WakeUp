@@ -1,4 +1,4 @@
-package com.example.alarmclock.recyclerview
+package com.example.alarmclock.presentation.home_screen.recyclerview
 
 import android.R
 import android.content.Context

@@ -1,28 +1,31 @@
-package com.example.alarmclock.ui
+package com.example.alarmclock.presentation.home_screen.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.core.Constant
+import com.example.alarmclock.common.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.common.core.Constant
 import com.example.alarmclock.databinding.ActivityMainBinding
-import com.example.alarmclock.data.alarm.entity.Alarm
-import com.example.alarmclock.recyclerview.CardListener
-import com.example.alarmclock.recyclerview.RecyclerAdapter
-import com.example.alarmclock.recyclerview.SwipeItem
-import com.example.alarmclock.recyclerview.SwitchListener
-import com.example.alarmclock.viewmodel.AlarmViewModel
+import com.example.alarmclock.data.model.Alarm
+import com.example.alarmclock.presentation.home_screen.recyclerview.CardListener
+import com.example.alarmclock.presentation.home_screen.recyclerview.RecyclerAdapter
+import com.example.alarmclock.presentation.home_screen.recyclerview.SwipeItem
+import com.example.alarmclock.presentation.home_screen.recyclerview.SwitchListener
+import com.example.alarmclock.presentation.alarm_screen.AlarmActivity
+import com.example.alarmclock.presentation.viewmodel.AlarmViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity(), SwitchListener,CardListener {
-    private lateinit var viewModel: AlarmViewModel
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(), SwitchListener, CardListener {
+    private  val viewModel: AlarmViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +34,6 @@ class MainActivity : AppCompatActivity(), SwitchListener,CardListener {
         setSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
         initialRecyclerView()
         setOnClickListenerToFloatingActionButton()
         getDataFromViewModel()
@@ -116,7 +118,7 @@ class MainActivity : AppCompatActivity(), SwitchListener,CardListener {
     }
 
     override fun onClick(alarm: Alarm) {
-       val intent=Intent(this,AlarmActivity::class.java)
+       val intent=Intent(this, AlarmActivity::class.java)
         intent.putExtra(Constant.EXTRA_ALARM,alarm)
         startActivity(intent)
     }

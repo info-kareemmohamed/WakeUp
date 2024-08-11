@@ -1,49 +1,43 @@
-package com.example.alarmclock.ui
+package com.example.alarmclock.presentation.alarm_screen
 
-import android.app.Activity
-import android.content.Intent
 import java.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.example.alarmclock.R
-import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.core.Constant
-import com.example.alarmclock.data.alarm.entity.Alarm
+import com.example.alarmclock.common.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.common.core.Constant
+import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
-import com.example.alarmclock.service.AlarmsService
-import com.example.alarmclock.viewmodel.AlarmViewModel
+import com.example.alarmclock.presentation.viewmodel.AlarmViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlin.math.log
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class AlarmActivity : AppCompatActivity(), View.OnClickListener,
     DayBottomSheet.OnDaysSaveClickListener, SoundBottomSheet.OnSoundSaveClickListener {
-    private lateinit var intent: Intent
     private var alarm: Alarm? = null
     private var sound: Int = R.raw.default_sound
     private var oldAlarm: Alarm? = null
     private var updateMode = false
     private lateinit var binding: ActivityAlarmBinding
-    private lateinit var viewModel: AlarmViewModel
+    private  val viewModel: AlarmViewModel by viewModels()
     private var dayOfWeek: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlarmBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
         setOnClickListener()
         getDataFromIntent()
     }
 
 
     private fun getDataFromIntent() {
-        intent = getIntent()
         alarm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
         } else {
@@ -156,7 +150,7 @@ class AlarmActivity : AppCompatActivity(), View.OnClickListener,
             AndroidAlarmScheduler(this).cancel(oldAlarm!!)
             viewModel.updateAlarm(alarm!!)
         } else {
-            viewModel.setAlarm(alarm!!)
+            viewModel.insertAlarm(alarm!!)
         }
         if (result.toInt() != 0) setDataToAlarmScheduler()
     }

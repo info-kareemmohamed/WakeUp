@@ -5,12 +5,11 @@ import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import com.example.alarmclock.R
-import com.example.alarmclock.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.core.AlarmSound
-import com.example.alarmclock.core.Constant
-import com.example.alarmclock.core.Notification
-import com.example.alarmclock.data.alarm.entity.Alarm
+import com.example.alarmclock.common.alarmmanager.AndroidAlarmScheduler
+import com.example.alarmclock.common.core.AlarmSound
+import com.example.alarmclock.common.core.Constant
+import com.example.alarmclock.common.core.Notification
+import com.example.alarmclock.data.model.Alarm
 
 
 class AlarmsService : Service() {

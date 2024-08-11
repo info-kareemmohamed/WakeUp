@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".ui.AlarmNotification">
+    tools:context=".presentation.alarm_challenge_screen.AlarmChallengeScreen">
 
 
     <TextView

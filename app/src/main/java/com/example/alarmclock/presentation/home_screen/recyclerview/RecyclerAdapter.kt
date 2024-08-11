@@ -1,20 +1,16 @@
-package com.example.alarmclock.recyclerview
+package com.example.alarmclock.presentation.home_screen.recyclerview
 
-import android.annotation.SuppressLint
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.SwitchCompat
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmclock.R
 
-import com.example.alarmclock.data.alarm.entity.Alarm
+import com.example.alarmclock.data.model.Alarm
 
 class RecyclerAdapter(
     private var dataList: List<Alarm> = emptyList(),

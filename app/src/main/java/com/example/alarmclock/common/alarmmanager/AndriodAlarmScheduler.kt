@@ -1,4 +1,4 @@
-package com.example.alarmclock.alarmmanager
+package com.example.alarmclock.common.alarmmanager
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -7,14 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.example.alarmclock.core.Constant
-import com.example.alarmclock.data.alarm.AlarmDatabase
-import com.example.alarmclock.data.alarm.entity.Alarm
+import com.example.alarmclock.common.core.Constant
+import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.receiver.AlarmReceiver
-import com.example.alarmclock.ui.AlarmNotification
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.alarmclock.presentation.alarm_challenge_screen.AlarmChallengeScreen
 import java.util.Calendar
 
 class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
@@ -78,7 +74,7 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
     }
 
     fun createStopAlarm(context: Context, time: String, id:Int): PendingIntent {
-        val intent = Intent(context, AlarmNotification::class.java).apply {
+        val intent = Intent(context, AlarmChallengeScreen::class.java).apply {
             putExtra(Constant.EXTRA_TIME, time)
             putExtra(Constant.EXTRA_ID, id)
         }
@@ -110,14 +106,14 @@ class AndroidAlarmScheduler(private val context: Context) : AlarmScheduler {
 
 
     fun restartAllAlarms(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val activeAlarms = AlarmDatabase.getDatabace(context).alarmDao().getActiveAlarm()
-            activeAlarms.let { alarms ->
-                val alarmScheduler = AndroidAlarmScheduler(context)
-                alarms.forEach { alarm ->
-                    alarmScheduler.scheduler(alarm)
-                }
-            }
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val activeAlarms = AlarmDatabase.getDatabace(context).alarmDao().getActiveAlarm()
+//            activeAlarms.let { alarms ->
+//                val alarmScheduler = AndroidAlarmScheduler(context)
+//                alarms.forEach { alarm ->
+//                    alarmScheduler.scheduler(alarm)
+//                }
+//            }
+//        }
     }
 }

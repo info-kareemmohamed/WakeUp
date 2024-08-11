@@ -1,4 +1,4 @@
-package com.example.alarmclock.core
+package com.example.alarmclock.common.core
 
 import android.content.Context
 import android.media.MediaPlayer
