@@ -1,9 +1,9 @@
-package com.example.alarmclock.repository
+package com.example.alarmclock.data.local.question
 
-import com.example.alarmclock.data.question.Question
+import com.example.alarmclock.data.model.Question
 import kotlin.random.Random
 
-class QuestionRepository {
+class QuestionData {
 
 
     private fun getRandomQuestion(operator: String): Question {

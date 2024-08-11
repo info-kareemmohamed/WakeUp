@@ -1,4 +1,4 @@
-package com.example.alarmclock.data.question
+package com.example.alarmclock.data.model
 
 data class Question(
     val questionText: String,
