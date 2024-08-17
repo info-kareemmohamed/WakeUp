@@ -1,44 +1,46 @@
 package com.example.alarmclock.service
 
 
+import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
-import com.example.alarmclock.common.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.common.core.AlarmSound
-import com.example.alarmclock.common.core.Constant
-import com.example.alarmclock.common.core.Notification
-import com.example.alarmclock.data.model.Alarm
+import com.example.alarmclock.R
+import com.example.alarmclock.common.AlarmSound
+import com.example.alarmclock.common.Constant.EXTRA_ID
+import com.example.alarmclock.common.Constant.EXTRA_MESSAGE
+import com.example.alarmclock.common.Constant.EXTRA_SOUND
+import com.example.alarmclock.common.Constant.EXTRA_TIME
+import com.example.alarmclock.common.Notification
+import com.example.alarmclock.common.formatCurrentTime
+
+import com.example.alarmclock.presentation.alarm_challenge_screen.ui.AlarmChallengeScreen
+import java.util.Calendar
 
 
 class AlarmsService : Service() {
 
-    private lateinit var alarmSound: AlarmSound
+    private  var alarmSound: AlarmSound?=null
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 
-        val alarm = getAlarmFromIntent(intent)
-        val time = intent?.getStringExtra(Constant.EXTRA_TIME) ?: "Unknown time"
-        val notification = Notification(
-            NotificationId = alarm?.id ?: 1, // Unique ID for the notification
+        val id = intent?.getIntExtra(EXTRA_ID, 0) ?: return START_NOT_STICKY
+        val message = intent.getStringExtra(EXTRA_MESSAGE) ?: ""
+        val soundResId = intent.getIntExtra(EXTRA_SOUND, R.raw.default_sound)
+        val time = Calendar.getInstance().formatCurrentTime()
+
+        startForeground(id, Notification(
+            NotificationId = id,
             title = "Alarm Triggered : $time",
-            description = "Message: ${alarm?.message}",
-            stopAlarmPendingIntent = AndroidAlarmScheduler(this).createStopAlarm(
-                this,
-                time,
-                alarm?.id ?: 1
-            )
+            description = "Message: $message",
+            openAlarmChallengeScreenIntent = createAlarmChallengeScreenIntent(this, time, id)
+        ).getAndDisplayNotification(this))
 
-        ).getAndDisplayNotification(this)
-
-        startForeground(alarm?.id ?: 1, notification)
-
-
-        alarmSound = AlarmSound(this, alarm!!.sound)
-        alarmSound.startSound()
+        alarmSound?.release()
+        alarmSound = AlarmSound(this, soundResId).apply { startSound() }
 
         return START_STICKY
     }
@@ -48,17 +50,25 @@ class AlarmsService : Service() {
     }
 
 
-    private fun getAlarmFromIntent(intent: Intent?): Alarm? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent?.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
-        } else {
-            intent?.getParcelableExtra(Constant.EXTRA_ALARM)
-        }
+    override fun onDestroy() {
+        alarmSound?.release()
+        super.onDestroy()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        alarmSound.stopSound()
+
+    private fun createAlarmChallengeScreenIntent(
+        context: Context,
+        time: String,
+        id: Int,
+    ): PendingIntent {
+        val intent = Intent(context, AlarmChallengeScreen::class.java).apply {
+            putExtra(EXTRA_TIME, time)
+            putExtra(EXTRA_ID, id)
+        }
+
+        val requestCode = "openAlarmChallengeScreen$time${id}".hashCode()
+
+        return PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 
 
