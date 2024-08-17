@@ -1,4 +1,4 @@
-package com.example.alarmclock.common.core
+package com.example.alarmclock.common
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -17,7 +17,7 @@ class Notification(
     val NotificationId: Int,
     var title: String,
     var description: String,
-    val stopAlarmPendingIntent: PendingIntent,
+    val openAlarmChallengeScreenIntent: PendingIntent,
     var icon: Int = R.drawable.baseline_alarm_add_24
 ) {
 
@@ -47,7 +47,7 @@ class Notification(
             setCategory(NotificationCompat.CATEGORY_ALARM)
             setOngoing(true)
 
-            setFullScreenIntent(stopAlarmPendingIntent, true)
+            setFullScreenIntent(openAlarmChallengeScreenIntent, true)
         }
 
 

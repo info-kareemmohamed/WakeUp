@@ -1,11 +1,10 @@
-package com.example.alarmclock.common.core
+package com.example.alarmclock.common
 
 import android.content.Context
 import android.media.MediaPlayer
-import com.example.alarmclock.R
 
 
-class AlarmSound(context: Context, soundResource: Int) {
+class AlarmSound(context: Context?, soundResource: Int) {
 
     private val mediaPlayer: MediaPlayer = MediaPlayer.create(context, soundResource)
 
