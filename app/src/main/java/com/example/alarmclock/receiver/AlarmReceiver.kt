@@ -4,63 +4,40 @@ package com.example.alarmclock.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.util.Log
 import androidx.core.content.ContextCompat
-import com.example.alarmclock.common.alarmmanager.AndroidAlarmScheduler
-import com.example.alarmclock.common.core.Constant
-import com.example.alarmclock.data.model.Alarm
+import com.example.alarmclock.common.Constant
+import com.example.alarmclock.common.getAlarmFromIntent
+import com.example.alarmclock.domain.use_case.RestartAllAlarmsUseCase
 import com.example.alarmclock.service.AlarmsService
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver() {
-
+    @Inject
+    lateinit var restartAllAlarmsUseCase: RestartAllAlarmsUseCase
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action.equals(Constant.ACTION_ALARM_MANAGER)) {
-
-            var alarm = getAlarmFromIntent(intent)
-            val time = intent?.getStringExtra(Constant.EXTRA_TIME) ?: "Unknown time"
-
-
-//            var notification = Notification(
-//                NotificationId = alarm?.id ?: 1, // Unique ID for the notification
-//                title = "Alarm Triggered : $time",
-//                description = "Message: ${alarm?.message}",
-//                stopAlarmPendingIntent = AndroidAlarmScheduler(context!!).createStopAlarm(
-//                    context,
-//                    time,
-//                    alarm?.id ?: 1
-//                )
-//
-//            ).getAndDisplayNotification(context)
-
-            // Start the RestartAlarmsService
-            val serviceIntent = Intent(context, AlarmsService::class.java)
-            serviceIntent.putExtra(Constant.EXTRA_ALARM, alarm)
-            serviceIntent.putExtra(Constant.EXTRA_TIME, time)
-            ContextCompat.startForegroundService(context!!, serviceIntent)
-
-            Log.d("wwwwwwwwww", "wwwwwwwwwwwttt")
-
-
-        } else if (Intent.ACTION_BOOT_COMPLETED == intent?.action) {
-
-            //context?.startService(Intent(context, RestartAlarmsService::class.java))
-            AndroidAlarmScheduler(context!!).restartAllAlarms(context)
-
+        context?.let { ctx ->
+            when (intent?.action) {
+                // If the action is related to the alarm manager, handle the alarm trigger
+                Constant.ACTION_ALARM_MANAGER -> handleAlarmAction(ctx, intent)
+                // If the device has just booted, restart all alarms
+                Intent.ACTION_BOOT_COMPLETED -> restartAllAlarmsUseCase(ctx)
+            }
         }
 
 
     }
 
-    private fun getAlarmFromIntent(intent: Intent?): Alarm? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent?.getParcelableExtra(Constant.EXTRA_ALARM, Alarm::class.java)
-        } else {
-            intent?.getParcelableExtra(Constant.EXTRA_ALARM)
+    private fun handleAlarmAction(context: Context, intent: Intent) {
+        Intent(context, AlarmsService::class.java).apply {
+            val alarm=intent.getAlarmFromIntent()
+            putExtra(Constant.EXTRA_ID, alarm?.id)
+            putExtra(Constant.EXTRA_MESSAGE, alarm?.message)
+            putExtra(Constant.EXTRA_SOUND, alarm?.sound)
+            ContextCompat.startForegroundService(context, this)
         }
     }
-
 }
 
