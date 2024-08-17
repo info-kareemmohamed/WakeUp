@@ -2,7 +2,7 @@ package com.example.alarmclock.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.alarmclock.common.core.Constant.DATABASE_NAME
+import com.example.alarmclock.common.Constant.DATABASE_NAME
 import com.example.alarmclock.data.local.alarm.database.AlarmDatabase
 import dagger.Module
 import dagger.Provides

@@ -3,7 +3,7 @@ package com.example.alarmclock.domain.use_case
 import android.app.AlarmManager
 import android.content.Context
 import android.os.Build
-import com.example.alarmclock.common.core.Constant.SNOOZE_TIME
+import com.example.alarmclock.common.Constant.SNOOZE_TIME
 import com.example.alarmclock.common.getPendingIntent
 import com.example.alarmclock.data.model.Alarm
 import java.util.Calendar
