@@ -1,139 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    tools:context=".presentation.alarm_screen.AlarmActivity">
-    <NumberPicker
-        android:id="@+id/alarm_number_picker_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <NumberPicker
-        android:id="@+id/alarm_number_picker_minute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
-        app:layout_constraintEnd_toStartOf="@id/alarm_number_picker_am_pm"
-        app:layout_constraintStart_toEndOf="@id/alarm_number_picker_hour"
-        app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="viewModel"
+            type="com.example.alarmclock.presentation.alarm_screen.view_model.AlarmViewModel" />
+    </data>
 
-    <NumberPicker
-        android:id="@+id/alarm_number_picker_am_pm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_15sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/_5sdp"
-        android:padding="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_height="match_parent"
 
-        app:cardElevation="@dimen/_10sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/alarm_number_picker_am_pm">
+        tools:context=".presentation.alarm_screen.ui.AlarmActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <NumberPicker
+            android:id="@+id/alarm_number_picker_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxValue="@{12}"
+            app:minValue="@{1}"
+            app:value="@{viewModel.alarm == null ? viewModel.hour :viewModel.alarm.hour }" />
+
+        <NumberPicker
+            android:id="@+id/alarm_number_picker_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            app:layout_constraintEnd_toStartOf="@id/alarm_number_picker_am_pm"
+            app:layout_constraintStart_toEndOf="@id/alarm_number_picker_hour"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxValue="@{59}"
+            app:minValue="@{0}"
+            app:value="@{viewModel.alarm != null ? viewModel.alarm.minute : viewModel.minute}" />
+
+        <NumberPicker
+            android:id="@+id/alarm_number_picker_am_pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxValue="@{1}"
+            app:minValue="@{0}"
+            app:displayedValuesAmAndPm="@{true}"
+            app:value="@{viewModel.alarm != null ? (viewModel.alarm.timePeriod == `AM` ? 0 : 1) : viewModel.timePeriod}" />
+
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/space_cadet"
-            android:padding="@dimen/_10sdp">
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
 
-            <TextView
-                android:id="@+id/alarm_text_view_title_days"
+            app:cardElevation="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/alarm_number_picker_am_pm">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/repeat"
-                android:textColor="@color/checked_track"
-                android:textSize="@dimen/_20ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent"
+                android:background="@color/space_cadet"
+                android:padding="@dimen/_10sdp">
 
-            <TextView
-                android:id="@+id/alarm_text_view_days"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/today"
-                android:textSize="@dimen/_15ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/alarm_text_view_title_days" />
-
-            <View
-                android:id="@+id/alarm_view_divider_1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/dividerHorizontal"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:layout_constraintTop_toBottomOf="@id/alarm_text_view_days" />
-
-            <TextView
-                android:id="@+id/alarm_text_view_title_sound"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sound"
-                android:textColor="@color/checked_track"
-                android:textSize="@dimen/_20ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/alarm_view_divider_1" />
-
-            <TextView
-                android:id="@+id/alarm_text_view_sound"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/default_sound"
-                android:textSize="@dimen/_15ssp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/alarm_text_view_title_sound" />
-
-            <View
-                android:id="@+id/alarm_view_divider_2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/dividerHorizontal"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:layout_constraintTop_toBottomOf="@id/alarm_text_view_sound" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="@string/message"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/alarm_view_divider_2">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/alarm_edit_text_message"
-                    android:background="@color/space_cadet"
+                <TextView
+                    android:id="@+id/alarm_text_view_title_days"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:text="@string/repeat"
+                    android:textColor="@color/checked_track"
+                    android:textSize="@dimen/_20ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/alarm_button_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:background="@drawable/button"
-                android:text="@string/save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/alarm_text_view_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.alarm != null ? viewModel.alarm.getDaysList() : @string/today}"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/alarm_text_view_title_days" />
+
+                <View
+                    android:id="@+id/alarm_view_divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="?android:attr/dividerHorizontal"
+                    app:layout_constraintTop_toBottomOf="@id/alarm_text_view_days" />
+
+                <TextView
+                    android:id="@+id/alarm_text_view_title_sound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sound"
+                    android:textColor="@color/checked_track"
+                    android:textSize="@dimen/_20ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/alarm_view_divider_1" />
+
+                <TextView
+                    android:id="@+id/alarm_text_view_sound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_sound"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/alarm_text_view_title_sound" />
+
+                <View
+                    android:id="@+id/alarm_view_divider_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="?android:attr/dividerHorizontal"
+                    app:layout_constraintTop_toBottomOf="@id/alarm_text_view_sound" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/message"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/alarm_view_divider_2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/alarm_edit_text_message"
+                        android:layout_width="match_parent"
+                        android:text="@{viewModel.alarm != null ? viewModel.alarm.message :null}"
+                        android:layout_height="wrap_content"
+                        android:background="@color/space_cadet" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/alarm_button_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/button"
+                    android:text="@string/save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
