@@ -7,16 +7,10 @@ import android.util.Log
 import com.example.alarmclock.common.getPendingIntent
 import com.example.alarmclock.data.model.Alarm
 import java.util.Calendar
+import javax.inject.Inject
 
 
-/**
- * This use case is responsible for scheduling alarms based on the provided Alarm data.
- * For devices running Android M (API 23) and above, it uses setExactAndAllowWhileIdle to ensure
- * the alarm triggers exactly at the specified time even in low-power idle modes.
- * For older devices, it falls back to setRepeating for daily repetition.
- */
-
-class SchedulerAlarmUseCase {
+class SchedulerAlarmUseCase  @Inject constructor(){
 
     operator fun invoke(item: Alarm?, context: Context) {
         if (item == null) return
@@ -34,11 +28,9 @@ class SchedulerAlarmUseCase {
                     pendingIntent
                 )
             } else {
-                // setRepeating consumes fewer resources but setExact ensures precise timing
-                alarmManager.setRepeating(
+                alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
-                    AlarmManager.INTERVAL_DAY,
                     pendingIntent
                 )
             }
