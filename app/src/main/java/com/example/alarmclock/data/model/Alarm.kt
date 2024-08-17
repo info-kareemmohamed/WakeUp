@@ -4,32 +4,24 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.alarmclock.R
+import kotlinx.parcelize.Parcelize
+import java.util.Calendar
 
+@Parcelize
 @Entity(tableName = "alarm_table")
 data class Alarm(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var message: String,
     var days: String,
-    var hour: String,
-    var minute: String,
+    var hour: Int,
+    var minute: Int,
     var active: Boolean = true,
-    val modeIcon: Int,
     val sound: Int,
-    var timePeriod: String
-) : Parcelable {
-
-    constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readByte() != 0.toByte(),
-        parcel.readInt(),
-        parcel.readInt(),
-        parcel.readString() ?: ""
-    )
+    var timePeriod: String,
+    val modeIcon: Int = if (timePeriod == "AM") R.drawable.ic_sunny else R.drawable.ic_nightlight,
+    ) : Parcelable {
 
     fun getDaysOfWeek(): List<Int> {
         return days.split(",").map { it.toInt() }
@@ -52,29 +44,9 @@ data class Alarm(
         return dayIndices.joinToString(" , ") { getDayName(it) }
     }
 
-    override fun describeContents(): Int {
-        return 0
+    fun getDaysList(): String {
+        return getDaysOfWeek().joinToString(" , ") { getDayName(it) }
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
-        parcel.writeString(message)
-        parcel.writeString(days)
-        parcel.writeString(hour)
-        parcel.writeString(minute)
-        parcel.writeByte(if (active) 1 else 0)
-        parcel.writeInt(modeIcon)
-        parcel.writeInt(sound)
-        parcel.writeString(timePeriod)
-    }
 
-    companion object CREATOR : Parcelable.Creator<Alarm> {
-        override fun createFromParcel(parcel: Parcel): Alarm {
-            return Alarm(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Alarm?> {
-            return arrayOfNulls(size)
-        }
-    }
 }
