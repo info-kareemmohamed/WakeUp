@@ -46,7 +46,10 @@ class AlarmChallengeScreen : AppCompatActivity(), OnClickListener {
 
     private fun cancelAlarm() {
         alarm?.apply {
-            getDaysOfWeek().toMutableList().let { days -> if (days.size > 1) days.remove(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) else active = false
+            getDaysOfWeek().toMutableList().let { days ->
+                if (days.size > 1) days.remove(
+                    Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                ) else active = false
                 setDaysOfWeek(days)
             }
             viewModel.updateAlarm(this)
@@ -55,6 +58,11 @@ class AlarmChallengeScreen : AppCompatActivity(), OnClickListener {
             finishAndRemoveTask() // Remove the app from the recent apps list
 
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        finishAndRemoveTask()// Remove the app from the recent apps list
     }
 
     private fun handleSnoozeButton() {
