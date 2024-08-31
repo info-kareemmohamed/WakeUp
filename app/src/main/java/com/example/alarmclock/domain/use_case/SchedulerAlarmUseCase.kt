@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.example.alarmclock.common.getPendingIntent
+import com.example.alarmclock.core.getPendingIntent
 import com.example.alarmclock.data.model.Alarm
 import java.util.Calendar
 import javax.inject.Inject

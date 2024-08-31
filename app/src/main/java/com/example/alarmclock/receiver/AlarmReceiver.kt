@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
-import com.example.alarmclock.common.Constant
-import com.example.alarmclock.common.getAlarmFromIntent
+import com.example.alarmclock.core.Constant
+import com.example.alarmclock.core.getAlarmFromIntent
 import com.example.alarmclock.domain.use_case.RestartAllAlarmsUseCase
 import com.example.alarmclock.service.AlarmsService
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +32,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun handleAlarmAction(context: Context, intent: Intent) {
         Intent(context, AlarmsService::class.java).apply {
+            action = AlarmsService.AlarmActions.Activate.toString()
             val alarm=intent.getAlarmFromIntent()
             putExtra(Constant.EXTRA_ID, alarm?.id)
             putExtra(Constant.EXTRA_MESSAGE, alarm?.message)

@@ -1,15 +1,17 @@
 package com.example.alarmclock.presentation.alarm_challenge_screen.ui
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.example.alarmclock.R
-import com.example.alarmclock.common.Notification
+import com.example.alarmclock.core.Constant.EXTRA_ID
 import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmChallengeBinding
 import com.example.alarmclock.presentation.alarm_challenge_screen.view_model.AlarmChallengeViewModel
@@ -31,8 +33,11 @@ class AlarmChallengeScreen : AppCompatActivity(), OnClickListener {
         binding.viewModel = viewModel
         setClickListener()
         viewModel.alarm.observe(this) { alarm = it }
-
+        onBackPressedDispatcher.addCallback(this) {
+            // Disable back button to mimic lock screen behavior
+        }
     }
+
 
 
     private fun setClickListener() {
@@ -53,23 +58,16 @@ class AlarmChallengeScreen : AppCompatActivity(), OnClickListener {
                 setDaysOfWeek(days)
             }
             viewModel.updateAlarm(this)
-            Notification.cancelNotification(this@AlarmChallengeScreen, id)
-            stopService(Intent(this@AlarmChallengeScreen, AlarmsService::class.java))
+            deactivateAlarmService(id)
             finishAndRemoveTask() // Remove the app from the recent apps list
 
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        finishAndRemoveTask()// Remove the app from the recent apps list
-    }
-
     private fun handleSnoozeButton() {
         alarm?.apply {
             viewModel.snoozeAlarm()
-            Notification.cancelNotification(this@AlarmChallengeScreen, id)
-            stopService(Intent(this@AlarmChallengeScreen, AlarmsService::class.java))
+            deactivateAlarmService(id)
             finishAndRemoveTask()
         }
     }
@@ -91,6 +89,21 @@ class AlarmChallengeScreen : AppCompatActivity(), OnClickListener {
         } else {
             Toast.makeText(this, R.string.wrong_answer, Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    private fun deactivateAlarmService(alarmId: Int) {
+        Intent(this, AlarmsService::class.java).apply {
+            action = AlarmsService.AlarmActions.Deactivate.toString()
+            putExtra(EXTRA_ID, alarmId)
+            startService(this)
+        }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        finishAndRemoveTask()// Remove the app from the recent apps list
     }
 
 

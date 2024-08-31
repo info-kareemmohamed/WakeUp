@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.alarmclock.common.Constant.EXTRA_ID
-import com.example.alarmclock.common.Constant.EXTRA_TIME
+import com.example.alarmclock.core.Constant.EXTRA_ID
+import com.example.alarmclock.core.Constant.EXTRA_TIME
 import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.data.model.Question
 import com.example.alarmclock.domain.use_case.GetAlarmByIdUseCase

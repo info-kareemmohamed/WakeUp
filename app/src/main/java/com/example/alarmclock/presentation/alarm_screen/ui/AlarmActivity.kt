@@ -1,14 +1,13 @@
 package com.example.alarmclock.presentation.alarm_screen.ui
 
 import java.util.Calendar
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.example.alarmclock.R
-import com.example.alarmclock.common.dayNameToCalendar
+import com.example.alarmclock.core.dayNameToCalendar
 import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.databinding.ActivityAlarmBinding
 import com.example.alarmclock.presentation.alarm_screen.view_model.AlarmViewModel

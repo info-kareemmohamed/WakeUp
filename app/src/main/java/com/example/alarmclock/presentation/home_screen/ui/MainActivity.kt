@@ -9,7 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.alarmclock.common.Constant
+import com.example.alarmclock.core.Constant
 import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.databinding.ActivityMainBinding
 import com.example.alarmclock.presentation.alarm_screen.ui.AlarmActivity

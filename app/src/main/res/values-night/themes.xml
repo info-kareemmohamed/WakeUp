@@ -3,5 +3,10 @@
     <style name="Base.Theme.AlarmClock" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="colorPrimary">@color/checked_track</item>
     </style>
 </resources>

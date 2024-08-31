@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
-import com.example.alarmclock.common.Constant.EXTRA_ALARM
+import com.example.alarmclock.core.Constant.EXTRA_ALARM
 import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.domain.use_case.CancelAlarmUseCase
 import com.example.alarmclock.domain.use_case.GetLastAlarmUseCase

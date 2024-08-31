@@ -2,7 +2,7 @@ package com.example.alarmclock.domain.use_case
 
 import android.app.AlarmManager
 import android.content.Context
-import com.example.alarmclock.common.getPendingIntent
+import com.example.alarmclock.core.getPendingIntent
 import com.example.alarmclock.data.model.Alarm
 import javax.inject.Inject
 
