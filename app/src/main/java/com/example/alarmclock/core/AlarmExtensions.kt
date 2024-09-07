@@ -8,9 +8,9 @@ import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.receiver.AlarmReceiver
 import java.util.Calendar
 
-fun Alarm.getPendingIntent(context: Context, day: Int): PendingIntent {
+fun Alarm.getPendingIntent(context: Context, day: Int,alarmAction:String= Constant.ACTION_ALARM_MANAGER): PendingIntent {
     val intent = Intent(context, AlarmReceiver::class.java).apply {
-        action = Constant.ACTION_ALARM_MANAGER
+        action = alarmAction
         putExtra(Constant.EXTRA_ALARM, this@getPendingIntent)
 
     }

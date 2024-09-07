@@ -9,13 +9,15 @@ import javax.inject.Inject
 
 class RestartAllAlarmsUseCase @Inject constructor(
     private val alarmDao: AlarmDao,
-    private val schedulerAlarmUseCase: SchedulerAlarmUseCase
+    private val schedulerAlarmUseCase: SchedulerAlarmUseCase,
+    private val notifyBeforeAlarmTriggerUseCase: NotifyBeforeAlarmTriggerUseCase
 ) {
     operator fun invoke(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             val activeAlarms = alarmDao.getActiveAlarm()
             activeAlarms.forEach { alarm ->
                 schedulerAlarmUseCase(alarm, context)
+                notifyBeforeAlarmTriggerUseCase(alarm, context)
             }
         }
     }

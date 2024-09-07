@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import com.example.alarmclock.R
 import com.example.alarmclock.core.AlarmPreferences
 import com.example.alarmclock.core.AlarmSound
@@ -49,6 +50,7 @@ class AlarmsService : Service() {
 
 
     private fun activate(intent: Intent?) {
+        Log.d("wwwwww", "${alarmPreferences.getAlarmCount()}")
         val id = intent?.getIntExtra(EXTRA_ID, 0) ?: return
         val soundResId = intent.getIntExtra(EXTRA_SOUND, R.raw.default_sound)
         val notification = createNotificationFromIntent(intent, this)

@@ -20,8 +20,7 @@ fun createNotification(
     context: Context,
     title: String,
     description: String,
-
-    openAlarmChallengeScreenIntent: PendingIntent
+    openAlarmChallengeScreenIntent: PendingIntent? = null
 ): Notification {
 
     return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID).apply {
@@ -31,12 +30,13 @@ fun createNotification(
         setPriority(NotificationCompat.PRIORITY_HIGH)
         setCategory(NotificationCompat.CATEGORY_ALARM)
         setOngoing(true)
-        setFullScreenIntent(openAlarmChallengeScreenIntent, true)
+        openAlarmChallengeScreenIntent?.let {
+            setFullScreenIntent(it, true)
+        }
     }.build()
 
 
 }
-
 
 
 fun cancelNotification(context: Context, notificationId: Int) {
@@ -48,10 +48,8 @@ fun cancelNotification(context: Context, notificationId: Int) {
 }
 
 
-
-
-fun createNotificationFromIntent(intent: Intent?,context: Context): Notification {
-    val id = intent?.getIntExtra(EXTRA_ID, 0)?:0
+fun createNotificationFromIntent(intent: Intent?, context: Context): Notification {
+    val id = intent?.getIntExtra(EXTRA_ID, 0) ?: 0
     val message = intent?.getStringExtra(EXTRA_MESSAGE).orEmpty()
     val time = Calendar.getInstance().formatCurrentTime()
     return createNotification(

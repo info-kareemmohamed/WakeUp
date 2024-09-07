@@ -11,6 +11,7 @@ import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.domain.use_case.CancelAlarmUseCase
 import com.example.alarmclock.domain.use_case.GetLastAlarmUseCase
 import com.example.alarmclock.domain.use_case.InsertAlarmUseCase
+import com.example.alarmclock.domain.use_case.NotifyBeforeAlarmTriggerUseCase
 import com.example.alarmclock.domain.use_case.SchedulerAlarmUseCase
 import com.example.alarmclock.domain.use_case.UpdateAlarmUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +29,7 @@ class AlarmViewModel @Inject constructor(
     private val getLastAlarmUseCase: GetLastAlarmUseCase,
     private val cancelAlarmUseCase: CancelAlarmUseCase,
     private val schedulerAlarmUseCase: SchedulerAlarmUseCase,
+    private val notifyBeforeAlarmTriggerUseCase: NotifyBeforeAlarmTriggerUseCase,
 
     ) : AndroidViewModel(application) {
     private val calendar = Calendar.getInstance()
@@ -55,6 +57,7 @@ init {
     fun schedulerAlarm(alarm: Alarm) {
         if ( _alarm.value != null) cancelAlarmUseCase(_alarm.value!!, getApplication<Application>().applicationContext)
         schedulerAlarmUseCase(alarm, getApplication<Application>().applicationContext)
+       notifyBeforeAlarmTriggerUseCase(alarm, getApplication<Application>().applicationContext)
     }
 
 
