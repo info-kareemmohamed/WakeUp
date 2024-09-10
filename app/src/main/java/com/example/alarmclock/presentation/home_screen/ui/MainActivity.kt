@@ -72,8 +72,3 @@ class MainActivity : AppCompatActivity(), SwitchListener, CardListener {
     }
 }
 
-//    private fun updateStatusBarIcon(enabled: Boolean) {
-//        sendBroadcast(Intent("android.intent.action.ALARM_CHANGED").apply {
-//            putExtra("alarmSet", enabled)
-//        })
-//    }
