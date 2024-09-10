@@ -62,7 +62,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 set(Calendar.MINUTE, alarm?.minute?:1)
             }
             calendar.add(Calendar.MINUTE, +2)
-            val formattedHour = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))
+            val formattedHour = String.format("%02d", if(calendar.get(Calendar.HOUR_OF_DAY)%12==0) 12 else calendar.get(Calendar.HOUR_OF_DAY)%12)
             val formattedMinute = String.format("%02d", calendar.get(Calendar.MINUTE))
             putExtra(Constant.EXTRA_TIME, "$formattedHour:$formattedMinute ${alarm?.timePeriod}")
             ContextCompat.startForegroundService(context, this)

@@ -27,7 +27,7 @@ class NotifyBeforeAlarmTriggerService : Service() {
         val time = intent?.getStringExtra(EXTRA_TIME)
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).apply {
             setSmallIcon(R.drawable.baseline_alarm_add_24)
-            setContentTitle("Alarm Triggered")
+            setContentTitle("Alarm Trigger")
             setContentText("Alarm will trigger in $time")
             setPriority(NotificationCompat.PRIORITY_HIGH)
             setCategory(NotificationCompat.CATEGORY_ALARM)
