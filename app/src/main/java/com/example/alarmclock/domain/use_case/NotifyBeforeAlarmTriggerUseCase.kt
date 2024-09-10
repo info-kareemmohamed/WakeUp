@@ -2,19 +2,26 @@ package com.example.alarmclock.domain.use_case
 
 import android.content.Context
 import com.example.alarmclock.core.Constant.NOTIFY_BEFORE_ALARM_TIME
+import com.example.alarmclock.core.Constant.SNOOZE_TIME
 import com.example.alarmclock.data.model.Alarm
 import com.example.alarmclock.service.NotifyBeforeAlarmTriggerService.MessageActions
 import javax.inject.Inject
 import java.util.Calendar
 
 class NotifyBeforeAlarmTriggerUseCase @Inject constructor(private val schedulerAlarmUseCase: SchedulerAlarmUseCase) {
-    operator fun invoke(alarm: Alarm, context: Context) {
-     schedulerAlarmUseCase.invoke(subtractTwoMinutesFromAlarm(alarm), context,
-         MessageActions.Activate.toString())
+    operator fun invoke(alarm: Alarm, context: Context,isSnooze: Boolean = false) {
+        val updatedAlarm = if (isSnooze) {
+            snoozeAlarm(alarm)
+        } else {
+            adjustAlarmTime(alarm, -NOTIFY_BEFORE_ALARM_TIME)
+        }
+        schedulerAlarmUseCase(updatedAlarm, context, MessageActions.Activate.toString())
+
     }
 
 
-    private fun subtractTwoMinutesFromAlarm(alarm: Alarm): Alarm {
+
+    private fun adjustAlarmTime(alarm: Alarm, minutesOffset: Int): Alarm {
         val updatedDays = mutableListOf<Int>()
         var updatedHour = alarm.hour
         var updatedMinute = alarm.minute
@@ -27,8 +34,8 @@ class NotifyBeforeAlarmTriggerUseCase @Inject constructor(private val schedulerA
                 set(Calendar.DAY_OF_WEEK, day)
             }
 
-            // Subtract NOTIFY_BEFORE_ALARM_TIME minutes
-            calendar.add(Calendar.MINUTE, -NOTIFY_BEFORE_ALARM_TIME)
+
+            calendar.add(Calendar.MINUTE,  minutesOffset)
 
             // Get the updated values from the calendar
             updatedHour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -39,5 +46,9 @@ class NotifyBeforeAlarmTriggerUseCase @Inject constructor(private val schedulerA
         return alarm.copy(hour = updatedHour, minute = updatedMinute, days = updatedDays.joinToString(","))
     }
 
+    private fun snoozeAlarm(alarm: Alarm): Alarm {
+        val snoozeDurationInMinutes = SNOOZE_TIME - NOTIFY_BEFORE_ALARM_TIME
+        return adjustAlarmTime(alarm, snoozeDurationInMinutes)
+    }
 
 }

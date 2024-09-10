@@ -9,7 +9,7 @@ object Constant {
     const val EXTRA_SOUND = "SEND_SOUND"
     const val NOTIFICATION_NAME = "Alarm Notifications"
     const val NOTIFICATION_CHANNEL_ID = "Alarm_notification_channel"
-    const val SNOOZE_TIME = 2
+    const val SNOOZE_TIME = 8
     const val  NOTIFY_BEFORE_ALARM_TIME = 2
     const val PREFS_NAME = "MyPrefs"
     const val ALARM_NUMBER_TRIGGER_KEY = "NUMBER_TRIGGER"
