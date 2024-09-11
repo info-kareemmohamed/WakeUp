@@ -1,4 +1,4 @@
-<p align="center"><img width="140" height="140" src="app/src/main/res/drawable/alarmlogo.png"></p>
+<p align="center"><img width="100" height="100" src="app/src/main/res/drawable/alarmlogo.png"></p>
 
 
 # WakeUp ⏰
