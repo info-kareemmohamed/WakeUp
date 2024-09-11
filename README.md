@@ -47,5 +47,7 @@ Clean Architecture: The app is structured using Clean Architecture principles, w
   
 - Handle Random Questions on Alarm Screen : Every time the alarm screen is displayed, it presents a random question to engage the user. This feature adds an interactive element to the alarm experience, requiring users to answer the question before dismissing or snoozing the alarm.
   
+- Remove App from Recent Apps List : After exiting the alarm screen, the app automatically removes itself from the recent apps list to prevent users from reopening the alarm screen once the alarm has been stopped. This ensures that the alarm screen cannot be accessed again unless a new alarm is triggered.
+  
 
 
