@@ -50,4 +50,14 @@ Clean Architecture: The app is structured using Clean Architecture principles, w
 - Remove App from Recent Apps List : After exiting the alarm screen, the app automatically removes itself from the recent apps list to prevent users from reopening the alarm screen once the alarm has been stopped. This ensures that the alarm screen cannot be accessed again unless a new alarm is triggered.
   
 
+### Techniques 🛠️
 
+- Android ( kotlin )
+- XML
+- Data Binding
+- Service
+- Broadcast Receiver
+- Shared preferences
+- Room Database
+- Dagger hilt
+- MVVM Architecture for clean and maintainable code.
