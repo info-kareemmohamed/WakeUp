@@ -16,6 +16,14 @@ WakeUp is a user-friendly alarm app that helps you start your day on time. You c
 - Edit or Delete Alarms: Easily modify or remove existing alarms as needed. You can adjust alarm times, messages, or other settings, or delete alarms that are no longer needed.
 - Battery Optimized: Designed to minimize battery usage while keeping alarms accurate and reliable.
 
+## Preview 📱
+
+https://github.com/user-attachments/assets/132fe1f9-a39c-427a-9b23-e08b129ec0f4
+
+
+
+
+
 
 ## Technical Details
 
