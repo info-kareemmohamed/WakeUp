@@ -66,6 +66,7 @@ Clean Architecture: The app is structured using Clean Architecture principles, w
 - Service
 - Broadcast Receiver
 - Shared preferences
+- Notification
 - Room Database
 - Dagger hilt
 - MVVM Architecture for clean and maintainable code.
